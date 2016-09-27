@@ -27,6 +27,7 @@ class Movie(object):
     
     def getData(self):
         return (self.title,self.time,self.year)
+
 pelicula = Movie("LotR",200,2000)
 peliculas =  MyMovies()
 peliculas.addMovie(pelicula)
