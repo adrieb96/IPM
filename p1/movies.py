@@ -53,7 +53,7 @@ class Movie(object):
         self.title = title
 
     def equals(self,movie):
-        return self.title == movie.title
+        return self.title.lower() == movie.title.lower()
     
     def getTitle(self):
         return self.title
