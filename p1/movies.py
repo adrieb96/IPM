@@ -38,8 +38,8 @@ class MyMovies(object):
             self.movies.remove(old)
             self.movies.insert(pos,new)
         else:
-            self.movies.remove(old)
-            self.addMovie(new)
+            if self.addMovie(new):
+                self.movies.remove(old)
 
     def getMovie(self,title):
         tmp = Movie(title)

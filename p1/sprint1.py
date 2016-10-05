@@ -3,11 +3,12 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 import movies
 
+
 class WEntry(Gtk.Window):
 
-    def __init__(self,add):
+    def __init__(self,funct):
 
-        self.add_movie = add
+        self.funct = funct
 
         Gtk.Window.__init__(self, title="title")
         self.set_size_request(200,50)
@@ -18,7 +19,7 @@ class WEntry(Gtk.Window):
         self.add(vbox)
 
         self.entry = Gtk.Entry()
-        self.entry.set_text("title...")
+        self.entry.set_text(" ")
         vbox.pack_start(self.entry, True, True, 0)
 
         hbox = Gtk.Box(spacing=6)
@@ -32,8 +33,9 @@ class WEntry(Gtk.Window):
         bbox.pack_start(self.button, True, True, 0)
 
     def on_ok(self, button):
-        new = self.entry.get_text()
-        self.add_movie(new)
+        title = self.entry.get_text()
+        self.funct(title)
+        self.destroy()
         
 
 class Buttons(object):
@@ -61,13 +63,13 @@ class Buttons(object):
         self.buttons.pack_start(self.button, True, True, 0)
 
     def on_add(self,button):
-        self.ask_movie()
+        self.ask_movie(1)
 
     def on_delete(self,button):
         self.delete_movie()
 
     def on_edit(self,button):
-        self.edit_movie()
+        self.ask_movie(2)
 
 
 class TreeList(object):
@@ -102,6 +104,8 @@ class Engine(Gtk.Window):
     def __init__(self):
         
         self.wentry = None
+        self.path = None
+        self.model = None
 
         #creates main window
         Gtk.Window.__init__(self, title="Er Videoclu")
@@ -119,37 +123,69 @@ class Engine(Gtk.Window):
         self.actions = Buttons(self.ask_movie,self.delete_movie,self.edit_movie)
         grid.attach_next_to(self.actions.buttons, self.tree.treeList, Gtk.PositionType.RIGHT,1,1)
 
-    def ask_movie(self):
+    def ask_movie(self,mode):
 
-        self.wentry = WEntry(self.add_movie) 
-        self.wentry.connect("delete-event", Gtk.main_quit)
-        self.wentry.show_all()
+        if mode == 1:
+            self.wentry = WEntry(self.add_movie) 
+        else:
+            self.select()
         
-    
+            if self.path is None:
+                return
+
+            self.wentry = WEntry(self.edit_movie)
+
+        self.wentry.show_all()
+
     def add_movie(self,title):
 
         self.wentry.destroy()
+        if title.isspace():
+            return
         movie = movies.Movie(title)
-        self.tree.peliculas.addMovie(movie)
-        self.tree.refresh_tree()
+        if self.tree.peliculas.addMovie(movie):
+            self.tree.refresh_tree()
+        else:
+            self.dialog_error()
 
     def delete_movie(self):
 
-        selection = self.tree.treeList.get_selection()
-        (model,path) = selection.get_selected()
+        self.select()
+        
+        if self.path is None:
+            return
 
-        title = model.get_value(path,0)
+        title = self.model.get_value(self.path,0)
         movie = self.tree.peliculas.getMovie(title)
         self.tree.peliculas.deleteMovie(movie)
-        model.remove(path)
+        self.model.remove(self.path)
         
 
-    def edit_movie(self):
+    def edit_movie(self, new):
+        self.wentry.destroy()
 
-        self.delete_movie()
-        self.ask_movie()
+        title = self.model.get_value(self.path,0)
+
+        if new.isspace() or new == title:
+            return
+        
+        newMovie = movies.Movie(new)        
+        movie = self.tree.peliculas.getMovie(title)
 
 
+        if not self.tree.peliculas.updateMovie(movie,newMovie):
+            self.dialog_error
+        self.tree.refresh_tree()
+
+    def select(self):
+        (self.model, self.path) = self.tree.treeList.get_selection().get_selected()
+           
+    def dialog_error(self):
+
+        dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, "Error with Movie")
+        dialog.format_secondary_text("Movie already exists")
+        dialog.run()
+        dialog.destroy()
 
     
         
