@@ -32,7 +32,9 @@ class WEntry(Gtk.Window):
         self.button.connect("clicked", self.on_ok)
         bbox.pack_start(self.button, True, True, 0)
 
+        
     def on_ok(self, button):
+        #gets the user input and calls the given function
         title = self.entry.get_text()
         self.funct(title)
         self.destroy()
@@ -40,11 +42,10 @@ class WEntry(Gtk.Window):
 
 class Buttons(object):
 
-    def __init__(self,add,delete,edit):
+    def __init__(self,add,delete):
 
         self.ask_movie = add
         self.delete_movie = delete
-        self.edit_movie = edit
         self.buttons = Gtk.VBox(spacing=20)
         self.create_buttons()
 
@@ -82,6 +83,7 @@ class TreeList(object):
 
         self.create_tree()
         
+    #creates tree skeleton with "options" columns   
     def create_tree(self):
 
         options = ["Title"]
@@ -90,6 +92,7 @@ class TreeList(object):
             column = Gtk.TreeViewColumn(title, render, text=i)
             self.treeList.append_column(column)
 
+    #clears and adds all movie to treeList
     def refresh_tree(self):
 
         self.movieList.clear()
@@ -98,7 +101,7 @@ class TreeList(object):
             self.movieList.append([pelicula.getTitle()])
 
 
-        
+#The HEART of the GUI
 class Engine(Gtk.Window):
     
     def __init__(self):
@@ -120,25 +123,28 @@ class Engine(Gtk.Window):
         grid.add(self.tree.treeList)
 
         #creates the buttons and add them to the grid
-        self.actions = Buttons(self.ask_movie,self.delete_movie,self.edit_movie)
+        self.actions = Buttons(self.ask_movie,self.delete_movie)
         grid.attach_next_to(self.actions.buttons, self.tree.treeList, Gtk.PositionType.RIGHT,1,1)
 
     def ask_movie(self,mode):
 
+        #add movie
         if mode == 1:
             self.wentry = WEntry(self.add_movie) 
-        else:
+        else: #edit movie
             self.select()
         
             if self.path is None:
                 return
 
+        #calls an entry window to get user input
             self.wentry = WEntry(self.edit_movie)
 
         self.wentry.show_all()
 
     def add_movie(self,title):
-
+        
+        #destroys entry window, checks if title is empty and adds it to the list
         self.wentry.destroy()
         if title.isspace():
             return
@@ -155,6 +161,7 @@ class Engine(Gtk.Window):
         if self.path is None:
             return
 
+        #deletes the selected movie
         title = self.model.get_value(self.path,0)
         movie = self.tree.peliculas.getMovie(title)
         self.tree.peliculas.deleteMovie(movie)
@@ -166,22 +173,26 @@ class Engine(Gtk.Window):
 
         title = self.model.get_value(self.path,0)
 
+        #checks if new title is valid
         if new.isspace() or new == title:
             return
         
         newMovie = movies.Movie(new)        
         movie = self.tree.peliculas.getMovie(title)
 
-
+        #if title already exists throws an error and exits without doing anything
         if not self.tree.peliculas.updateMovie(movie,newMovie):
-            self.dialog_error
-        self.tree.refresh_tree()
+            self.dialog_error()
+        else:
+            self.tree.refresh_tree()
 
     def select(self):
+        #gets the "selected" item
         (self.model, self.path) = self.tree.treeList.get_selection().get_selected()
            
     def dialog_error(self):
-
+        #Creates a dialog widget showing the erro
+        #(Only movie repeated error)
         dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, "Error with Movie")
         dialog.format_secondary_text("Movie already exists")
         dialog.run()
@@ -190,7 +201,7 @@ class Engine(Gtk.Window):
     
         
 
-
+#MAIN creates Engine
 window = Engine()
 window.connect("delete-event", Gtk.main_quit)
 window.show_all()

@@ -46,6 +46,7 @@ class MyMovies(object):
         for movies in self.movies:
             if tmp.equals(movies):
                 return movies
+        return None
 
 class Movie(object):
 
