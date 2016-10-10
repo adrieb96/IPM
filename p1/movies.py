@@ -37,9 +37,12 @@ class MyMovies(object):
             pos = self.movies.index(old)
             self.movies.remove(old)
             self.movies.insert(pos,new)
-        else:
-            if self.addMovie(new):
-                self.movies.remove(old)
+            return True
+        elif self.addMovie(new):
+            self.movies.remove(old)
+            return True
+        else: 
+            return False
 
     def getMovie(self,title):
         tmp = Movie(title)

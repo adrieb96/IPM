@@ -181,10 +181,10 @@ class Engine(Gtk.Window):
         movie = self.tree.peliculas.getMovie(title)
 
         #if title already exists throws an error and exits without doing anything
-        if not self.tree.peliculas.updateMovie(movie,newMovie):
-            self.dialog_error()
-        else:
+        if self.tree.peliculas.updateMovie(movie,newMovie):
             self.tree.refresh_tree()
+        else:
+            self.dialog_error()
 
     def select(self):
         #gets the "selected" item
