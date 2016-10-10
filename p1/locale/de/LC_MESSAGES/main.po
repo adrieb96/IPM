@@ -1,0 +1,43 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2016-10-10 17:53+0200\n"
+"PO-Revision-Date: 2016-10-10 17:55+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.9\n"
+"X-Poedit-Basepath: ../../..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: sprint1.py\n"
+
+#: sprint1.py:19
+msgid "title"
+msgstr "titel"
+
+#: sprint1.py:60
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: sprint1.py:64
+msgid "Delete"
+msgstr "Löschen"
+
+#: sprint1.py:68
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: sprint1.py:95
+msgid "Title"
+msgstr "Titel"
+
+#: sprint1.py:202
+msgid "Error with Movie"
+msgstr "Fehler mit Film"
+
+#: sprint1.py:203
+msgid "Movie already exists"
+msgstr "Film ist bereits vorhanden"
