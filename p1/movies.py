@@ -5,8 +5,22 @@ class MyMovies(object):
         self.movies = []
 
 
-    def getList(self):
-        return self.movies
+    def getList(self,mode):
+
+        listedMovies = []
+
+        if mode == 1:
+            listedMovies = self.movies
+        elif mode == 2:
+            for movie in self.movies:
+                if movie.getStatus():
+                    listedMovies.add(movie)
+        else:
+            for movie in self.movies:
+                if movie.getStatus() == False:
+                    listedMovies.add(movie)    
+
+        return listedMovies
     
     def printList(self):
         for movie in self.movies:
@@ -32,17 +46,24 @@ class MyMovies(object):
     def deleteMovie(self,movie):
         self.movies.remove(movie)
    
+    def change(self,old,new):
+        pos = self.movies.index(old)
+        self.movies[pos]=new
+
     def updateMovie(self,old,new):
+        new.setStatus(old.getStatus())
         if old.getTitle().lower() == new.getTitle().lower():
-            pos = self.movies.index(old)
-            self.movies.remove(old)
-            self.movies.insert(pos,new)
+            self.change(old,new)
             return True
         elif self.addMovie(new):
             self.movies.remove(old)
             return True
-        else: 
+        else:
             return False
+    
+    def seenMovie(self,movie):
+        movie.changeStatus()
+        self.change(movie,movie)
 
     def getMovie(self,title):
         tmp = Movie(title)
@@ -55,10 +76,21 @@ class Movie(object):
 
     def __init__(self,title):
         self.title = title
+        self.status = False
 
     def equals(self,movie):
         return self.title.lower() == movie.title.lower()
     
     def getTitle(self):
         return self.title
+
+    def setStatus(self,status):
+        self.status = status
+
+    def changeStatus(self):
+        self.status = not self.status
+
+    def getStatus(self):
+        return self.status
+
 

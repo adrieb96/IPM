@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2016-10-10 17:53+0200\n"
-"PO-Revision-Date: 2016-10-10 17:55+0200\n"
+"POT-Creation-Date: 2016-10-11 10:04+0200\n"
+"PO-Revision-Date: 2016-10-11 10:05+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -12,32 +12,56 @@ msgstr ""
 "X-Generator: Poedit 1.8.9\n"
 "X-Poedit-Basepath: ../../..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-SearchPath-0: sprint1.py\n"
+"X-Poedit-SearchPath-0: main.py\n"
 
-#: sprint1.py:19
+#: main.py:24
 msgid "title"
 msgstr "titel"
 
-#: sprint1.py:60
+#: main.py:66
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: sprint1.py:64
+#: main.py:70
 msgid "Delete"
 msgstr "Löschen"
 
-#: sprint1.py:68
+#: main.py:74
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: sprint1.py:95
+#: main.py:78 main.py:108
+msgid "Seen"
+msgstr "Gesehen"
+
+#: main.py:108
 msgid "Title"
 msgstr "Titel"
 
-#: sprint1.py:202
+#: main.py:119 main.py:128
+msgid "yes"
+msgstr "ja"
+
+#: main.py:120 main.py:130
+msgid "no"
+msgstr "nein"
+
+#: main.py:139 main.py:158
+msgid "All"
+msgstr "Alle"
+
+#: main.py:139 main.py:160
+msgid "Seen "
+msgstr "Gesehen"
+
+#: main.py:139 main.py:162
+msgid "Watchlist"
+msgstr "Merken"
+
+#: main.py:282
 msgid "Error with Movie"
 msgstr "Fehler mit Film"
 
-#: sprint1.py:203
+#: main.py:283
 msgid "Movie already exists"
 msgstr "Film ist bereits vorhanden"

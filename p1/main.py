@@ -53,11 +53,12 @@ class WEntry(Gtk.Window):
 
 class Buttons(object):
 
-    def __init__(self,add,delete):
+    def __init__(self,add,delete,seen):
 
         self.ask_movie = add
         self.delete_movie = delete
-        self.buttons = Gtk.VBox(spacing=20)
+        self.seen_movie = seen
+        self.buttons = Gtk.VBox(spacing=6)
         self.create_buttons()
 
     def create_buttons(self):
@@ -74,6 +75,10 @@ class Buttons(object):
         self.button.connect("clicked", self.on_edit)
         self.buttons.pack_start(self.button, True, True, 0)
 
+        self.button = Gtk.Button.new_with_label(_("Seen"))
+        self.button.connect("clicked", self.on_seen)
+        self.buttons.pack_start(self.button, True, True ,0)
+
     def on_add(self,button):
         self.ask_movie(1)
 
@@ -82,6 +87,9 @@ class Buttons(object):
 
     def on_edit(self,button):
         self.ask_movie(2)
+    
+    def on_seen(self,button):
+        self.seen_movie()
 
 
 class TreeList(object):
@@ -89,7 +97,7 @@ class TreeList(object):
     def __init__(self):
         
         self.peliculas = movies.MyMovies()
-        self.movieList = Gtk.ListStore(str)
+        self.movieList = Gtk.ListStore(str,str)
         self.treeList = Gtk.TreeView(self.movieList)
 
         self.create_tree()
@@ -97,19 +105,62 @@ class TreeList(object):
     #creates tree skeleton with "options" columns   
     def create_tree(self):
 
-        options = [_("Title")]
+        options = [_("Title"),_("Seen")]
         for i, title in enumerate(options):
             render = Gtk.CellRendererText()
             column = Gtk.TreeViewColumn(title, render, text=i)
             self.treeList.append_column(column)
 
     #clears and adds all movie to treeList
-    def refresh_tree(self):
+    def refresh_tree(self,mode):
+
+        def seen(movie):
+            if movie.getStatus():
+                return _('yes')
+            return _('no')
 
         self.movieList.clear()
 
-        for pelicula in self.peliculas.getList():
-            self.movieList.append([pelicula.getTitle()])
+        for pelicula in self.peliculas.getList(1):
+            if mode == 1:
+                self.movieList.append([pelicula.getTitle(),seen(pelicula)])
+            elif mode == 2 and pelicula.getStatus():
+                self.movieList.append([pelicula.getTitle(),_('yes')])
+            elif mode == 3 and not pelicula.getStatus():
+                self.movieList.append([pelicula.getTitle(),_('no')])
+
+class OptionsBox(object):
+
+    def __init__(self,setMode):
+
+        self.setMode = setMode
+        self.box = Gtk.Box(spacing=6)
+        select_tree = Gtk.ListStore(str)
+        options = [ _("All"),_("Seen "),_("Watchlist")]
+
+        for option in options:
+            select_tree.append([option])
+
+        movies_combo = Gtk.ComboBox.new_with_model(select_tree)
+        movies_combo.connect("changed",self.on_combo_changed)
+        renderer = Gtk.CellRendererText()
+        movies_combo.pack_start(renderer,True)
+        movies_combo.add_attribute(renderer, "text", 0)
+        self.box.pack_start(movies_combo, False, False, True)
+
+    
+    def on_combo_changed(self,combo):
+        tree_iter = combo.get_active_iter()
+
+        if tree_iter != None:
+            model = combo.get_model()
+            option = model[tree_iter][0]
+            if option == _("All"):
+                self.setMode(1)
+            elif option == _("Seen "):
+                self.setMode(2)
+            elif option == _("Watchlist"):
+                self.setMode(3)
 
 
 #The HEART of the GUI
@@ -120,6 +171,7 @@ class Engine(Gtk.Window):
         self.wentry = None
         self.path = None
         self.model = None
+        self.mode = 1
 
         #creates main window
         Gtk.Window.__init__(self, title="Er Videoclu")
@@ -131,11 +183,22 @@ class Engine(Gtk.Window):
 
         #creates the tree and adds it to the grid
         self.tree = TreeList()
-        grid.attach(self.tree.treeList,0,0,1,10)
+        self.scrollable_treelist = Gtk.ScrolledWindow()
+        self.scrollable_treelist.set_size_request(100,1)
+        self.scrollable_treelist.set_vexpand(True)
+        grid.attach(self.scrollable_treelist, 0, 0, 1, 9)
+        self.scrollable_treelist.add(self.tree.treeList)
 
         #creates the buttons and add them to the grid
-        self.actions = Buttons(self.ask_movie,self.delete_movie)
-        grid.attach_next_to(self.actions.buttons, self.tree.treeList, Gtk.PositionType.RIGHT,1,1)
+        self.actions = Buttons(self.ask_movie,self.delete_movie,self.seen_movie)
+        grid.attach_next_to(self.actions.buttons, self.scrollable_treelist, Gtk.PositionType.RIGHT,1,1)
+
+        self.combo = OptionsBox(self.setMode)
+        grid.attach_next_to(self.combo.box, self.scrollable_treelist, Gtk.PositionType.BOTTOM,1,2)
+
+    def setMode(self,mode):
+        self.mode=mode
+        self.tree.refresh_tree(self.mode)
 
     def ask_movie(self,mode):
 
@@ -161,7 +224,7 @@ class Engine(Gtk.Window):
             return
         movie = movies.Movie(title)
         if self.tree.peliculas.addMovie(movie):
-            self.tree.refresh_tree()
+            self.tree.refresh_tree(self.mode)
         else:
             self.dialog_error()
 
@@ -193,9 +256,21 @@ class Engine(Gtk.Window):
 
         #if title already exists throws an error and exits without doing anything
         if self.tree.peliculas.updateMovie(movie,newMovie):
-            self.tree.refresh_tree()
+            self.tree.refresh_tree(self.mode)
         else:
             self.dialog_error()
+
+    def seen_movie(self):
+        
+        self.select()
+
+        if self.path is None:
+            return
+
+        title = self.model.get_value(self.path,0)
+        movie = self.tree.peliculas.getMovie(title)
+        self.tree.peliculas.seenMovie(movie)
+        self.tree.refresh_tree(self.mode)
 
     def select(self):
         #gets the "selected" item
