@@ -1,11 +1,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2016-10-13 09:48+0200\n"
-"PO-Revision-Date: 2016-10-13 09:52+0200\n"
+"POT-Creation-Date: 2016-10-13 09:53+0200\n"
+"PO-Revision-Date: 2016-10-13 09:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: eo\n"
+"Language: zu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -16,92 +16,92 @@ msgstr ""
 
 #: main.py:25
 msgid "title"
-msgstr "titolo"
+msgstr "chuntu"
 
 #: main.py:68
 msgid "Add"
-msgstr "Aldoni"
+msgstr "Danda dun"
 
 #: main.py:72
 msgid "Delete"
-msgstr "Forviŝi"
+msgstr "Chungu Tuca"
 
 #: main.py:76
 msgid "Edit"
-msgstr "Redakti"
+msgstr "Oonga boonga"
 
 #: main.py:80 main.py:117
 msgid "Seen"
-msgstr "Vidis"
+msgstr "CHULULU"
 
 #: main.py:84
 msgid "Recommendations"
-msgstr "Rekomendoj"
+msgstr ""
 
 #: main.py:117
 msgid "Title"
-msgstr "Titolo"
+msgstr "Chuntu"
 
 #: main.py:128 main.py:137
 msgid "yes"
-msgstr "jes"
+msgstr "yebo"
 
 #: main.py:129 main.py:139
 msgid "no"
-msgstr "neniu"
+msgstr "akukho"
 
 #: main.py:149 main.py:169
 msgid "All"
-msgstr "Ĉiuj"
+msgstr "MAMAMU"
 
 #: main.py:149 main.py:171
 msgid "Seen "
-msgstr "Vidojn"
+msgstr "MOMOMO"
 
 #: main.py:149 main.py:173
 msgid "Watchlist"
-msgstr "Atentaro"
+msgstr "MNEMU"
 
 #: main.py:183
 msgid "Import"
-msgstr "Import"
+msgstr ""
 
 #: main.py:187
 msgid "Export"
-msgstr "Eksportado"
+msgstr ""
 
 #: main.py:378
 msgid "You have seen no movies"
-msgstr "Vi nenion filmoj"
+msgstr ""
 
 #: main.py:385
 msgid "Error with Movie"
-msgstr "Eraro kun filmo"
+msgstr "PUTALACUTA CHUNDU-TEN"
 
 #: main.py:386
 msgid "Movie already exists"
-msgstr "Filmo jam ekzistas"
+msgstr "PETUTA CONSINE"
 
 #: main.py:392
 msgid "Connection Error"
-msgstr "Rilato Eraro"
+msgstr ""
 
 #: main.py:393
 msgid "Couldn't connect to the DataBase"
-msgstr "Ne povis konetki al la Datumbazo"
+msgstr ""
 
 #: main.py:400
 msgid "You have no Movies"
-msgstr "Vi ne havas filmojn"
+msgstr ""
 
 #: main.py:401
 msgid "We have some recommendations to get you started:"
-msgstr "Ni havas kelkajn rekomendojn al get vi komencis"
+msgstr ""
 
 #: main.py:414
 msgid "Recommendations based on your movies"
-msgstr "Rekomendoj bazitaj sur via filmoj"
+msgstr ""
 
 #: main.py:420
 msgid "No recommendations found"
-msgstr "Neniu rekomendoj trovita"
+msgstr ""

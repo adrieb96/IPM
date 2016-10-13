@@ -3,24 +3,21 @@ class MyMovies(object):
     def __init__(self):
         
         self.movies = []
+        self.length = 0
 
 
-    def getList(self,mode):
+    def getList(self):
+        return self.movies
 
-        listedMovies = []
+    def getSeen(self):
+        seen = []
+        for movie in self.movies:
+            if movie.getStatus():
+                seen.append(movie)
+        return seen        
 
-        if mode == 1:
-            listedMovies = self.movies
-        elif mode == 2:
-            for movie in self.movies:
-                if movie.getStatus():
-                    listedMovies.add(movie)
-        else:
-            for movie in self.movies:
-                if movie.getStatus() == False:
-                    listedMovies.add(movie)    
-
-        return listedMovies
+    def getLength(self):
+        return self.length
     
     def printList(self):
         for movie in self.movies:
@@ -39,12 +36,14 @@ class MyMovies(object):
             while pos < end and movie.getTitle().lower() > self.movies[pos].getTitle().lower():
                 pos += 1
             self.movies.insert(pos,movie)
+            self.length += 1
             return True
         else:
             return False
     
     def deleteMovie(self,movie):
         self.movies.remove(movie)
+        self.length -= 1
    
     def change(self,old,new):
         pos = self.movies.index(old)

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-11 10:01+0200\n"
-"PO-Revision-Date: 2016-10-11 10:01+0200\n"
+"POT-Creation-Date: 2016-10-13 09:40+0200\n"
+"PO-Revision-Date: 2016-10-13 09:40+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_ES\n"
@@ -20,57 +20,100 @@ msgstr ""
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SearchPath-0: main.py\n"
 
-#: main.py:24
+#: main.py:25
 msgid "title"
 msgstr "título"
 
-#: main.py:66
+#: main.py:68
 msgid "Add"
 msgstr "Añadir"
 
-#: main.py:70
+#: main.py:72
 msgid "Delete"
 msgstr "Borrar"
 
-#: main.py:74
+#: main.py:76
 msgid "Edit"
 msgstr "Editar"
 
-#: main.py:78 main.py:108 main.py:139
+#: main.py:80 main.py:117
 msgid "Seen"
 msgstr "Vista "
 
-#: main.py:108
+#: main.py:84
+msgid "Recommendations"
+msgstr "Recomendaciones"
+
+#: main.py:117
 msgid "Title"
 msgstr "Título"
 
-#: main.py:119 main.py:128
+#: main.py:128 main.py:137
 msgid "yes"
 msgstr "sí"
 
-#: main.py:120 main.py:130
+#: main.py:129 main.py:139
 msgid "no"
 msgstr "no"
 
-#: main.py:139 main.py:158
+#: main.py:149 main.py:169
 msgid "All"
 msgstr "Todas"
 
-#: main.py:139 main.py:162
-msgid "Watchlist"
-msgstr "Pendientes"
-
-#: main.py:160
+#: main.py:149 main.py:171
 msgid "Seen "
 msgstr "Vistas"
 
-#: main.py:282
+#: main.py:149 main.py:173
+msgid "Watchlist"
+msgstr "Pendientes"
+
+#: main.py:183
+msgid "Import"
+msgstr "Importar"
+
+#: main.py:187
+msgid "Export"
+msgstr "Exportar"
+
+#: main.py:378
+msgid "You have seen no movies"
+msgstr "No has visto películas"
+
+#: main.py:385
 msgid "Error with Movie"
 msgstr "Error en la película"
 
-#: main.py:283
+#: main.py:386
 msgid "Movie already exists"
 msgstr "Pelicula ya existe"
+
+#: main.py:392
+msgid "Connection Error"
+msgstr "Error de Conexión"
+
+#: main.py:393
+msgid "Couldn't connect to the DataBase"
+msgstr "No se pudo conectar a la Base de Datos"
+
+#: main.py:400
+msgid "You have no Movies"
+msgstr "No tienes Películas guardadas"
+
+#: main.py:401
+msgid "We have some recommendations to get you started:"
+msgstr "Tenemos algunas recomendaciones para iniciarte:"
+
+#: main.py:414
+msgid "Recommendations based on your movies"
+msgstr "Recomendaciones basadas en tus películas"
+
+#: main.py:420
+msgid "No recommendations found"
+msgstr "No se han encontrado recomendaciones"
+
+#~ msgid "We have some recommendations to get you started:\n"
+#~ msgstr "Tenemos algunas recomendaciones para empezar:\n"
 
 #~ msgid "HELLLLO"
 #~ msgstr "HOLA"
