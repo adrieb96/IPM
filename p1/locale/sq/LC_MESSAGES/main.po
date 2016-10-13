@@ -1,0 +1,107 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2016-10-13 12:47+0200\n"
+"PO-Revision-Date: 2016-10-13 13:07+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sq_AL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.9\n"
+"X-Poedit-Basepath: ../../..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: main.py\n"
+
+#: main.py:25
+msgid "title"
+msgstr "titull"
+
+#: main.py:68
+msgid "Add"
+msgstr "Shtoj"
+
+#: main.py:72
+msgid "Delete"
+msgstr "Fshij"
+
+#: main.py:76
+msgid "Edit"
+msgstr "Redaktoj"
+
+#: main.py:80 main.py:117
+msgid "Seen"
+msgstr "Shikuara"
+
+#: main.py:84
+msgid "Recommendations"
+msgstr "Rekomandimet"
+
+#: main.py:117
+msgid "Title"
+msgstr "Titull"
+
+#: main.py:128 main.py:137
+msgid "yes"
+msgstr "po"
+
+#: main.py:129 main.py:139
+msgid "no"
+msgstr "jo"
+
+#: main.py:149 main.py:169
+msgid "All"
+msgstr "gjithë"
+
+#: main.py:149 main.py:171
+msgid "Seen "
+msgstr "Shikuara"
+
+#: main.py:149 main.py:173
+msgid "Watchlist"
+msgstr "listë shikojnë"
+
+#: main.py:183
+msgid "Import"
+msgstr "Importoj "
+
+#: main.py:187
+msgid "Export"
+msgstr "Exportoj"
+
+#: main.py:378
+msgid "You have seen no movies"
+msgstr "Ju keni parë nuk ka filma"
+
+#: main.py:385
+msgid "Error with Movie"
+msgstr "Gabim me Film"
+
+#: main.py:386
+msgid "Movie already exists"
+msgstr "Filmi tashmë ekziston "
+
+#: main.py:392
+msgid "Connection Error"
+msgstr "Gabim në lidhje"
+
+#: main.py:393
+msgid "Couldn't connect to the DataBase"
+msgstr "Nuk mund të lidheni me bazën e të dhënave"
+
+#: main.py:400
+msgid "You have no Movies"
+msgstr "Ju nuk keni Filma"
+
+#: main.py:401
+msgid "We have some recommendations to get you started:"
+msgstr "Ne kemi disa rekomandime për të merrni ju keni filluar"
+
+#: main.py:414
+msgid "Recommendations based on your movies"
+msgstr "Rekomandime bazuar në filmat tuaj"
+
+#: main.py:420
+msgid "No recommendations found"
+msgstr "Nuk rekomandime gjetur"
