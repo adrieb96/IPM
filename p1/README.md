@@ -5,7 +5,7 @@ GTK3 + Python
 -------------
 Authors:  
 - **Estévez Barreiro, Adrian**: adrian.estevez1
-- **Cortón de Blas, Diego**: diego.corton.de.blas
+- **Cortón de Blas, Diego**: diego.cortonde.blas
 
 Interfaz de Usuario de una aplicacion de escritorio dedicada a la coleccion de peliculas:
 - Permite guardar películas por su título
