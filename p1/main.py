@@ -1,9 +1,15 @@
 import gi #import gi and force it to acces gtk+3
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
+from gi.repository import Gtk,GObject
 import movies
 import gettext,locale
 import api
+import dialog
+
+import time
+import threading
+GObject.threads_init()
+
 
 current_locale, encoding = locale.getdefaultlocale()
 
@@ -15,6 +21,59 @@ try:
 except:
     _ = lambda s: s
 
+class API_Thread(threading.Thread):
+
+    def __init__(self,callback,job,arg):
+
+        threading.Thread.__init__(self)
+        self.callback = callback
+        self.API = api.TMDB(current_locale)
+        self.arg = arg
+        self.job = job
+        self.exit = False
+
+    def recommendations(self):
+
+        rec_list = []
+        not_found = []
+
+        if len(self.arg) > 0:
+            for movie in self.arg:
+                if self.exit:
+                    return None
+                id_movie = self.API.get_movie_id(movie.getTitle())
+                if id_movie is None:
+                    not_found.append(movie.getTitle())
+                else:
+                    rec_list.append(id_movie)              
+
+            msg = self.API.get_recommendations(rec_list)
+        else:
+            msg=[_("You have seen no movies")]
+
+        return msg
+
+    
+    def run(self):
+
+        if not self.API.try_connection():
+            answer = False
+            self.job = 0
+        else:
+            if self.job == 1:
+                try:
+                    answer = self.recommendations()
+                except:
+                    answer = []
+                    self.job = -1
+
+            if self.job == 2:
+                pass
+
+        GObject.idle_add(self.callback,self.job,answer)
+
+    def exit_thread(self):
+        self.exit = True
 
 class WEntry(Gtk.Window):
 
@@ -37,14 +96,17 @@ class WEntry(Gtk.Window):
         hbox = Gtk.Box(spacing=6)
         vbox.pack_start(hbox,True,True,0)
 
-        bbox = Gtk.Box(spacing=0)
-        vbox.add(bbox)
-
         self.button = Gtk.Button.new_with_label("Ok")
         self.button.connect("clicked", self.on_ok)
-        bbox.pack_start(self.button, True, True, 0)
+        hbox.pack_start(self.button, True, True, 0)
 
+        self.button2 = Gtk.Button.new_with_label(_("Cancel"))
+        self.button2.connect("clicked", self.on_cancel)
+        hbox.pack_start(self.button2, True, True, 0)
         
+    def on_cancel(self, button):
+        self.destroy()
+
     def on_ok(self, button):
         #gets the user input and calls the given function
         title = self.entry.get_text()
@@ -152,12 +214,13 @@ class OptionsBox(object):
             select_tree.append([option])
 
         movies_combo = Gtk.ComboBox.new_with_model(select_tree)
+        movies_combo.set_title("view movies")
         movies_combo.connect("changed",self.on_combo_changed)
         renderer = Gtk.CellRendererText()
         movies_combo.pack_start(renderer,True)
         movies_combo.add_attribute(renderer, "text", 0)
         self.box.pack_start(movies_combo, False, False, True)
-
+        
     
     #defines what the Engine will do on each mode
     def on_combo_changed(self,combo):
@@ -173,11 +236,13 @@ class OptionsBox(object):
             elif option == _("Watchlist"):
                 self.setMode(3)
 
+
 class Files(object):
 
-    def __init__(self,tree):
+    def __init__(self,tree,thread):
 
         self.tree = tree 
+        self.thread = thread
         self.buttons = Gtk.Box(spacing=10)
         
         button1 = Gtk.Button(_("Import"))
@@ -191,6 +256,8 @@ class Files(object):
 
     def on_import(self,button):
         
+        if not(self.thread is None):
+            return
         try:
             f = open(".movies")
             films = f.readlines()
@@ -207,12 +274,88 @@ class Files(object):
 
     def on_export(self,button):
         try:
+            seen = self.tree.peliculas.getSeen()
+            if len(seen)<1:
+                return
+
             f = open(".movies",'w')
-            for movie in self.tree.peliculas.getList():
-                f.write(movie.getTitle())
+            for movie in seen:
+                f.write(movie.getTitle()+'\n')
+
         except:
             return
 
+"""
+class Validate(object):
+
+    def __init__(self,val):
+
+        self.validate = val
+        self.button = Gtk.Box(spacing=10)
+
+        button = Gtk.Button(_("Check Movie"))
+        button.connect("clicked", self.on_validate)
+        self.button.pack_start(button,True,True,0)
+
+    def on_validate(self,button):
+        self.validate()
+
+
+class WValidate(Gtk.Window):
+
+    def __init__(self,films):
+
+        self.films = films
+        Gtk.Window.__init__(self, title="Validate")
+        self.set_border_width(10)
+        
+        grid = Gtk.Grid()
+        grid.set_column_homogeneous(True)
+        grid.set_row_homogeneous(True)
+        grid.set_column_spacing(5)
+        grid.set_row_spacing(5)
+
+
+        self.add(grid)
+
+        txt = self.getTxt()
+        label = Gtk.Label()
+        label.set_markup("<b>Movies</b>")
+        grid.attach(label,0,0,1,1)
+
+        button1 = Gtk.Button("year")
+        button1.connect("clicked", self.kill_box)
+        grid.attach(button1,4,1,1,1)
+
+        button2 = Gtk.Button("title")
+        button2.connect("clicked", self.kill_box)
+        grid.attach(button2,4,0,1,1)
+
+        button3 = Gtk.Button("Votes")
+        button3.connect("clicked", self.kill_box)
+        grid.attach(button3,4,2,1,1)
+
+
+    def getTxt(self):
+        
+        txt = ""
+        for movie in self.films:
+            txt += movie[0]+'\n'
+
+        return txt
+
+    def order_by(self,button):
+        
+        shorted = []
+        end = 0
+
+        for item in lista:
+
+            pos = 0
+    
+    def kill_box(self,button):
+        self.destroy()
+"""
 
 #The HEART of the GUI
 class Engine(Gtk.Window):
@@ -222,8 +365,11 @@ class Engine(Gtk.Window):
         self.wentry = None
         self.path = None
         self.model = None
+        self.thread = None
         self.mode = 1
+        self.connection = True
         self.API = api.TMDB(current_locale)
+        self.dialog = dialog.Dialog(self)
 
         #creates main window
         Gtk.Window.__init__(self, title="Er Videoclu")
@@ -233,6 +379,8 @@ class Engine(Gtk.Window):
         grid = Gtk.Grid()
         grid.set_column_homogeneous(True)
         grid.set_row_homogeneous(True)
+        grid.set_row_spacing(6)
+        grid.set_column_spacing(10)
         self.add(grid)
 
         #creates the tree and adds it to the grid
@@ -246,30 +394,67 @@ class Engine(Gtk.Window):
         self.actions = Buttons(self.ask_movie,self.delete_movie,self.seen_movie,self.recommendations)
         grid.attach(self.actions.buttons,3,0,2,5)
         
+        #creates the combo box
         self.combo = OptionsBox(self.setMode)
-        grid.attach(self.combo.box,0,8,2,1)
+        grid.attach(self.combo.box,0,8,1,1)
 
-        """
-        #creates a spinner that appears when loading info
+        #creates the Files buttons
+        self.files = Files(self.tree,self.thread)
+        grid.attach(self.files.buttons,3,8,2,1)
+
+        #creates the validate button
+        #self.validate = Validate(self.validate_movie)
+        #grid.attach(self.validate.button,1,8,2,1)
+    
         self.spinner = Gtk.Spinner()
-        grid.attach_next_to(self.spinner, self.combo.box, Gtk.PositionType.RIGHT,1,1)
-        self.spinner.start()
-        """
+        grid.attach(self.spinner,3,5,2,1)
 
-        self.files = Files(self.tree)
-        grid.attach(self.files.buttons,3,7,2,1)
+        #creates a label on the bottom right corner
+        #label = Gtk.Label("\n  Adrian & Corton")
+        #grid.attach(label,4,8,1,1)
         
+    def exit(self,widget,event):
+
+        if self.thread is None:
+            Gtk.main_quit()
+        else:
+            self.thread.exit_thread() 
+            Gtk.main_quit()
+
     def setMode(self,mode):
         self.mode=mode
         self.tree.refresh_tree(self.mode)
 
+    def start_spinner(self,mode,arg):
+
+        self.spinner.start()
+        self.thread = API_Thread(self.stop_spinner,mode,arg)
+        self.thread.start()
+ 
+     
+    def stop_spinner(self,mode,answer):
+
+        self.spinner.stop()
+        self.thread = None
+
+        if answer is None:
+            return
+
+        if mode < 1:
+            self.dialog.no_connection(mode)
+
+        elif mode == 1:
+            self.dialog.recommendations(answer)
 
     def ask_movie(self,mode):
 
-        #add movie
-        if mode == 1:
+        if mode == 1: #add movie
             self.wentry = WEntry(self.add_movie,"") 
+
         else: #edit movie
+            if not (self.thread is None):
+                return
+
             self.select()
         
             if self.path is None:
@@ -282,10 +467,10 @@ class Engine(Gtk.Window):
 
 
     def add_movie(self,title):
-        
+ 
         #destroys entry window, checks if title is empty and adds it to the list
         self.wentry.destroy()
-        if title.isspace():
+        if title.isspace() or len(title) < 1:
             return
 
         movie = movies.Movie(title)
@@ -293,10 +478,13 @@ class Engine(Gtk.Window):
         if self.tree.peliculas.addMovie(movie):
             self.tree.refresh_tree(self.mode)
         else:
-            self.dialog_error()
+            self.dialog.error()
 
 
     def delete_movie(self):
+
+        if not (self.thread is None):
+            return
 
         self.select()
         
@@ -311,6 +499,7 @@ class Engine(Gtk.Window):
         
 
     def edit_movie(self, new):
+
         self.wentry.destroy()
 
         title = self.model.get_value(self.path,0)
@@ -326,11 +515,14 @@ class Engine(Gtk.Window):
         if self.tree.peliculas.updateMovie(movie,newMovie):
             self.tree.refresh_tree(self.mode)
         else:
-            self.dialog_error()
+            self.dialog.error()
 
 
     def seen_movie(self):
-        
+
+        if not (self.thread is None):
+            return
+
         self.select()
 
         if self.path is None:
@@ -347,88 +539,50 @@ class Engine(Gtk.Window):
         (self.model, self.path) = self.tree.treeList.get_selection().get_selected()
            
 
-    def getDefault(self):
-        return open("default").readlines()
-
-
     def recommendations(self):
 
+        if not (self.thread is None):
+            return
+
         if self.tree.peliculas.getLength() < 1:
-            self.dialog_no_films()
+            self.dialog.no_films()
         else:
-
-            if not self.API.try_connection():
-                self.dialog_no_connection()
-                return
-            
-            rec_list = []
-            not_found = []
-
             seen = self.tree.peliculas.getSeen()
-            if len(seen) > 0:
-                for movie in seen:
-                    id_movie = self.API.get_movie_id(movie.getTitle())
-                    if id_movie is None:
-                        not_found.append(movie.getTitle())
-                    else: 
-                        rec_list.append(id_movie)
+            self.start_spinner(1,seen)
 
-                msg=self.API.get_recommendations(rec_list)
-            else:
-                msg=[_("You have seen no movies")]
-            self.dialog_recommendations(msg)
+    """
+    def validate_movie(self):
 
+        if not (self.thread is None):
+            return
 
-    def dialog_error(self):
-        #Creates a dialog widget showing the erro
-        #(Only movie repeated error)
-        dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, _("Error with Movie"))
-        dialog.format_secondary_text(_("Movie already exists"))
-        dialog.run()
-        dialog.destroy()
-        
+        self.select()
 
-    def dialog_no_connection(self):
-        dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, _("Connection Error"))
-        dialog.format_secondary_text(_("Couldn't connect to the DataBase"))
-        dialog.run()
-        dialog.destroy()
+        if self.path is None:
+            return
 
+        if not self.API.try_connection():
+            self.dialog.no_connection()
+            return
+            
 
-    def dialog_no_films(self):
-
-        dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.INFO, Gtk.ButtonsType.OK, _("You have no Movies"))
-        text = _("We have some recommendations to get you started:")+'\n'
-        recommended = self.getDefault()
-        for film in recommended:
-            if film is None:
-                break
-            text += "-"+film
-
-        dialog.format_secondary_text(text)
-        dialog.run()
-        dialog.destroy()
-
-    def dialog_recommendations(self,msg):
-
-        dialog = Gtk.MessageDialog(self,0,Gtk.MessageType.INFO, Gtk.ButtonsType.OK,_("Recommendations based on your movies"))
-        text=""
-        for film in msg:
-            text += film+"\n"
-
-        if len(text)<1:
-            text = _("No recommendations found")
-        dialog.format_secondary_text(text)
-        dialog.run()
-        dialog.destroy()
-        
+        title = self.model.get_value(self.path,0)
+        titles = self.API.get_similar_title(title)
+        if title in titles:
+            self.dialog.validated(title)
+        else:
+            self.wvalidate = WValidate(titles)
+            self.wvalidate.show_all()
+            self.dialog.validation(titles)
+    """
+            
 def on_pressed_key(widget,event):
     if event.keyval == 65470:
         print "DISPLAY HELP!!"
 
 #MAIN creates Engine
 window = Engine()
-window.connect("delete-event", Gtk.main_quit)
+window.connect("delete-event", window.exit)
 window.connect("key-press-event", on_pressed_key)
 window.show_all()
 Gtk.main()
