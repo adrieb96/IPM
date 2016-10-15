@@ -5,7 +5,7 @@ key = "ec388678283f75639302a76fd4944cb4"
 
 #Connects to the db and returns the answer
 def get_response(url):
-    response = requests.get(url,timeout=5)
+    response = requests.get(url,timeout=10)
     return json.loads(response.text)
 
 class TMDB(object):
@@ -59,25 +59,27 @@ class TMDB(object):
         return response['title']
     
 
+    """
     #Returns a list of recommendations based on the given movie list
     def get_recommendations(self,movie_list):
-    
-        def get_recommendation(movie_id,n):
-    
-            url = "%s%d/recommendations?api_key=%s&language=%s" %(self.db,movie_id,key,self.lang)
-            response = get_response(url)
+    """ 
 
-            films =  response['results']
-        
-            recs = []
+    def get_recommendation(self, movie_id,n):
+    
+        url = "%s%d/recommendations?api_key=%s&language=%s" %(self.db,movie_id,key,self.lang)
+        response = get_response(url)
 
-            for item in films:
-                 if n<1:
-                     break
-                 recs.append(item['title'])
-                 n-=1
-            return recs
-        #----------------------------------------
+        films =  response['results']
+    
+        recs = []
+
+        for item in films:
+            if n<1:
+                break
+            recs.append(item['title'])
+            n -= 1
+        return recs
+        """ #----------------------------------------
 
         def get_iterations(i):
             if i<4:
@@ -105,3 +107,5 @@ class TMDB(object):
                     recommendations.append(movie)
 
         return recommendations      
+        """
+

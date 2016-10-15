@@ -46,22 +46,56 @@ class API_Thread(threading.Thread):
 
     def recommendations(self):
 
-        rec_list = []
-        not_found = []
+        def get_iterations(i):
+            if i<3:
+                return (5,False)
+            if i<4:
+                return (3,False)
+            if i<6: 
+                return (2,False)
+            else:
+                return (1,i>10)
+        #----------------------------------
 
-        if len(self.arg) > 0:
-            for movie in self.arg:
+        def approve(recs,seen):
+            
+            for film in seen:
+                try:
+                    recs.remove(film.getTitle())
+                except:
+                    pass
+            return recs
+        #----------------------------------
+
+        rec_list = []
+        
+        seen = self.arg
+
+        i = len(seen)
+
+        if i > 0:
+
+            (i,repeat) = get_iterations(i)
+            for movie in seen:
                 #If exit is activated, thread kills himself without crying
                 if self.exit:
                     return None
 
                 id_movie = self.API.get_movie_id(movie.getTitle())
-                if id_movie is None:
-                    not_found.append(movie.getTitle())
-                else:
-                    rec_list.append(id_movie)              
 
-            msg = self.API.get_recommendations(rec_list)
+                if id_movie is None:
+                    pass
+                else:
+                    recs = self.API.get_recommendation(id_movie,i)
+                    for movie in recs:
+                        if movie in rec_list:
+                            if repeat:  
+                                break
+                        else:    
+                            rec_list.append(movie)
+
+            msg = approve(rec_list,seen)
+
         else:
             msg=[_("You have seen no movies")]
 
@@ -76,15 +110,15 @@ class API_Thread(threading.Thread):
             self.job = 0
         else:
             #if the api losses connection to the db it returns an error
-            try:
-                if self.job == 1:
-                    answer = self.recommendations()
-                elif self.job == 2:
-                    pass
+            if self.job == 1:
+                answer = self.recommendations()
+            elif self.job == 2:
+                pass
+            """
             except:
                 answer = []
                 self.job = -1
-   
+            """
         #Calls the callback function and dies
         GObject.idle_add(self.callback,self.job,answer)
 
@@ -121,10 +155,19 @@ class WEntry(Gtk.Window):
         self.button2.connect("clicked", self.on_cancel)
         hbox.pack_start(self.button2, True, True, 0)
         
+        self.connect("key-press-event",self.on_pressed_key)
+        
     def on_cancel(self, button):
         self.destroy()
 
+    def on_pressed_key(self,widget,event):
+        if event.keyval == 65293:
+            self.return_value()
+
     def on_ok(self, button):
+        self.return_value()
+
+    def return_value(self):
         #gets the user input and calls the given function
         title = self.entry.get_text()
         self.funct(title)

@@ -64,9 +64,10 @@ class Dialog(object):
         dialog.run()
         dialog.destroy()
 
-    def validated(self,title):
+    def validated(self,title,mode):
 
-        dialog = Gtk.MessageDialog(self.father,0,Gtk.MessageType.INFO, Gtk.ButtonsType.OK, _("Movie exists"))
+        msg = {1:_("Movie Exists"), 2:_("Movie doesnt Exist")}
+        dialog = Gtk.MessageDialog(self.father,0,Gtk.MessageType.INFO, Gtk.ButtonsType.OK, msg[mode])
         dialog.format_secondary_text(title[0])
         dialog.run()
         dialog.destroy()
