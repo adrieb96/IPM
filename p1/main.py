@@ -1,3 +1,14 @@
+"""""""""""""""""""""""""""""""""""""""
+    
+    ------IPM------ 
+
+ Python + GTK
+ 
+ Adrian Estevez Barreiro
+ Diego Corton de Blas
+
+
+"""""""""""""""""""""""""""""""""""""""
 import gi #import gi and force it to acces gtk+3
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk,GObject
@@ -32,6 +43,7 @@ class API_Thread(threading.Thread):
         self.job = job
         self.exit = False
 
+
     def recommendations(self):
 
         rec_list = []
@@ -39,8 +51,10 @@ class API_Thread(threading.Thread):
 
         if len(self.arg) > 0:
             for movie in self.arg:
+                #If exit is activated, thread kills himself without crying
                 if self.exit:
                     return None
+
                 id_movie = self.API.get_movie_id(movie.getTitle())
                 if id_movie is None:
                     not_found.append(movie.getTitle())
@@ -56,22 +70,25 @@ class API_Thread(threading.Thread):
     
     def run(self):
 
+        #First it tries to connect to the db
         if not self.API.try_connection():
             answer = False
             self.job = 0
         else:
-            if self.job == 1:
-                try:
+            #if the api losses connection to the db it returns an error
+            try:
+                if self.job == 1:
                     answer = self.recommendations()
-                except:
-                    answer = []
-                    self.job = -1
-
-            if self.job == 2:
-                pass
-
+                elif self.job == 2:
+                    pass
+            except:
+                answer = []
+                self.job = -1
+   
+        #Calls the callback function and dies
         GObject.idle_add(self.callback,self.job,answer)
 
+    #?
     def exit_thread(self):
         self.exit = True
 
@@ -214,7 +231,6 @@ class OptionsBox(object):
             select_tree.append([option])
 
         movies_combo = Gtk.ComboBox.new_with_model(select_tree)
-        movies_combo.set_title("view movies")
         movies_combo.connect("changed",self.on_combo_changed)
         renderer = Gtk.CellRendererText()
         movies_combo.pack_start(renderer,True)
@@ -254,6 +270,7 @@ class Files(object):
         self.buttons.pack_start(button2,True,True,0)
 
 
+    #if the files exists imports the movies inside
     def on_import(self,button):
         
         if not(self.thread is None):
@@ -271,7 +288,7 @@ class Files(object):
 
         self.tree.refresh_tree(1)
 
-
+    #exports current seen movies to the file
     def on_export(self,button):
         try:
             seen = self.tree.peliculas.getSeen()
@@ -366,7 +383,7 @@ class Engine(Gtk.Window):
         self.path = None
         self.model = None
         self.thread = None
-        self.mode = 1
+        self.mode = 1 #It starts on mode 1, so you can see all movies
         self.connection = True
         self.API = api.TMDB(current_locale)
         self.dialog = dialog.Dialog(self)
@@ -413,25 +430,30 @@ class Engine(Gtk.Window):
         #label = Gtk.Label("\n  Adrian & Corton")
         #grid.attach(label,4,8,1,1)
         
+    
     def exit(self,widget,event):
 
+        #Exits the main program, killing all living threads
         if self.thread is None:
             Gtk.main_quit()
         else:
             self.thread.exit_thread() 
             Gtk.main_quit()
 
+
     def setMode(self,mode):
         self.mode=mode
         self.tree.refresh_tree(self.mode)
 
+
+    #Starts the spinner and calls the api thread
     def start_spinner(self,mode,arg):
 
         self.spinner.start()
         self.thread = API_Thread(self.stop_spinner,mode,arg)
         self.thread.start()
  
-     
+    #Stops the spinner and handles the answer 
     def stop_spinner(self,mode,answer):
 
         self.spinner.stop()
@@ -445,6 +467,7 @@ class Engine(Gtk.Window):
 
         elif mode == 1:
             self.dialog.recommendations(answer)
+
 
     def ask_movie(self,mode):
 
@@ -580,7 +603,9 @@ def on_pressed_key(widget,event):
     if event.keyval == 65470:
         print "DISPLAY HELP!!"
 
-#MAIN creates Engine
+#------------------------------------MAIN------------------------------------ 
+#Creates Engine and start the application
+
 window = Engine()
 window.connect("delete-event", window.exit)
 window.connect("key-press-event", on_pressed_key)
