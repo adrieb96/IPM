@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2016-10-13 09:42+0200\n"
-"PO-Revision-Date: 2016-10-13 09:48+0200\n"
+"POT-Creation-Date: 2016-10-16 23:41+0200\n"
+"PO-Revision-Date: 2016-10-16 23:42+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -13,95 +13,181 @@ msgstr ""
 "X-Poedit-Basepath: ../../..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: main.py\n"
+"X-Poedit-SearchPath-1: dialog.py\n"
 
-#: main.py:25
-msgid "title"
-msgstr "titel"
-
-#: main.py:68
+#: dialog.py:11 dialog.py:81 main.py:145 main.py:205 main.py:547 main.py:568
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: main.py:72
+#: dialog.py:11
+msgid "Add your movies to the list"
+msgstr "Fügen sie ihre filme auf der liste"
+
+#: dialog.py:12 main.py:209
 msgid "Delete"
 msgstr "Löschen"
 
-#: main.py:76
+#: dialog.py:12
+msgid "Delete the movies you don't want in your list"
+msgstr "Löschen sie die filme, die sie nicht auf ihrer liste wollen"
+
+#: dialog.py:13 main.py:146 main.py:213
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: main.py:80 main.py:117
+#: dialog.py:13
+msgid "Change the title of your movies as many times as you want"
+msgstr "Ändern sie den titel ihrer filme so oft wie sie möchten"
+
+#: dialog.py:14 dialog.py:19 main.py:217 main.py:254
 msgid "Seen"
 msgstr "Gesehen"
 
-#: main.py:84
+#: dialog.py:14
+msgid "Mark your movie as Seen or Not Seen"
+msgstr "Markieren sie ihre filme gesehen"
+
+#: dialog.py:15 main.py:221
 msgid "Recommendations"
 msgstr "Empfehlug"
 
-#: main.py:117
-msgid "Title"
-msgstr "Titel"
+#: dialog.py:15
+msgid "Get Recommendations based on your seen movies"
+msgstr "Holen sie sich Empfehlungen basierend auf ihren filmen"
 
-#: main.py:128 main.py:137
-msgid "yes"
-msgstr "ja"
-
-#: main.py:129 main.py:139
-msgid "no"
-msgstr "nein"
-
-#: main.py:149 main.py:169
-msgid "All"
-msgstr "Alle"
-
-#: main.py:149 main.py:171
-msgid "Seen "
-msgstr "Gesehen"
-
-#: main.py:149 main.py:173
-msgid "Watchlist"
-msgstr "Merken"
-
-#: main.py:183
+#: dialog.py:16 main.py:322
 msgid "Import"
 msgstr "Einführen"
 
-#: main.py:187
+#: dialog.py:16
+msgid "If you have a saved list of seen movies you can import it"
+msgstr "Wenn sie eine gespeicherte liste von filmen haben import"
+
+#: dialog.py:17 main.py:326
 msgid "Export"
 msgstr "Ausführen"
 
-#: main.py:378
-msgid "You have seen no movies"
-msgstr "Sie haben keine filme gesehen"
+#: dialog.py:17
+msgid "Export your seen movies"
+msgstr "Exportieren sie ihre filme"
 
-#: main.py:385
+#: dialog.py:18 main.py:286 main.py:306
+msgid "All"
+msgstr "Alle"
+
+#: dialog.py:18
+msgid "See the full list of saved Movies"
+msgstr "Die vollständige liste der Filme"
+
+#: dialog.py:19
+msgid "Just see the list of seen Movies"
+msgstr "Siehe die liste der Filme gesehen"
+
+#: dialog.py:20 main.py:286 main.py:310
+msgid "Watchlist"
+msgstr "Merken"
+
+#: dialog.py:20
+msgid "Here you can check your no seen Movies"
+msgstr "Überprüfen sie ihre Merkliste"
+
+#: dialog.py:23 dialog.py:31
+msgid "User Help"
+msgstr "Benutzer-Hilfe"
+
+#: dialog.py:58
+msgid "title"
+msgstr "titel"
+
+#: dialog.py:70
+msgid "Reommendations"
+msgstr "Empfehlungen"
+
+#: dialog.py:70
+msgid "Select movies to add"
+msgstr "Wählen sie filme hinzufügen"
+
+#: dialog.py:82
+msgid "Exit"
+msgstr "Beenden"
+
+#: dialog.py:83
+msgid "Add All"
+msgstr "Alle Hinzufügen"
+
+#: dialog.py:138
 msgid "Error with Movie"
 msgstr "Fehler mit Film"
 
-#: main.py:386
+#: dialog.py:139
 msgid "Movie already exists"
 msgstr "Film ist bereits vorhanden"
 
-#: main.py:392
+#: dialog.py:146
 msgid "Connection Error"
 msgstr "Verbindungsfehler"
 
-#: main.py:393
+#: dialog.py:148
+msgid "Timeout Exceeded"
+msgstr "Zeitüberschreitung"
+
+#: dialog.py:150
 msgid "Couldn't connect to the DataBase"
 msgstr "Konnte nicht mit der Datenbank verbinden"
 
-#: main.py:400
+#: dialog.py:160
 msgid "You have no Movies"
 msgstr "Sie haben keine Filme"
 
-#: main.py:401
+#: dialog.py:161
 msgid "We have some recommendations to get you started:"
 msgstr "Wir haben einige empfehlungen für den erfolgreichen start"
 
-#: main.py:414
-msgid "Recommendations based on your movies"
-msgstr "Empfehlungen auf der grundlage ihrer filme"
+#: dialog.py:177
+msgid "You have seen no Movies"
+msgstr "Sie haben keine Filme gesehen"
 
-#: main.py:420
-msgid "No recommendations found"
-msgstr "Keine empfehlungen gefunden"
+#: dialog.py:179
+msgid "Mark your movies as seen to get recommendations"
+msgstr "Markieren sie ihre filme gesehen emofehlungen zu erhalten"
+
+#: dialog.py:186
+msgid "No Recomendations Found"
+msgstr "Keine Empfehlungen Gefunden"
+
+#: dialog.py:187
+msgid "Couldnt find recommendations for your movies"
+msgstr "Konnte nicht empfehlungen für ihre filme finden"
+
+#: main.py:107
+msgid "You have seen no movies"
+msgstr "Sie haben keine filme gesehen"
+
+#: main.py:169 main.py:487
+msgid "Cancel"
+msgstr "Stornieren"
+
+#: main.py:254
+msgid "Title"
+msgstr "Titel"
+
+#: main.py:265 main.py:274
+msgid "yes"
+msgstr "ja"
+
+#: main.py:266 main.py:276
+msgid "no"
+msgstr "nein"
+
+#: main.py:286 main.py:308
+msgid "Seen "
+msgstr "Gesehen"
+
+#~ msgid "Couldnt found recommendations for your movies"
+#~ msgstr "Konnte nicht "
+
+#~ msgid "Recommendations based on your movies"
+#~ msgstr "Empfehlungen auf der grundlage ihrer filme"
+
+#~ msgid "No recommendations found"
+#~ msgstr "Keine empfehlungen gefunden"

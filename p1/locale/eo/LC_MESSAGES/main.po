@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2016-10-13 09:48+0200\n"
-"PO-Revision-Date: 2016-10-13 09:52+0200\n"
+"POT-Creation-Date: 2016-10-16 23:44+0200\n"
+"PO-Revision-Date: 2016-10-16 23:45+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: eo\n"
@@ -13,95 +13,178 @@ msgstr ""
 "X-Poedit-Basepath: ../../..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: main.py\n"
+"X-Poedit-SearchPath-1: dialog.py\n"
 
-#: main.py:25
-msgid "title"
-msgstr "titolo"
-
-#: main.py:68
+#: dialog.py:11 dialog.py:81 main.py:145 main.py:205 main.py:547 main.py:568
 msgid "Add"
 msgstr "Aldoni"
 
-#: main.py:72
+#: dialog.py:11
+msgid "Add your movies to the list"
+msgstr ""
+
+#: dialog.py:12 main.py:209
 msgid "Delete"
 msgstr "Forviŝi"
 
-#: main.py:76
+#: dialog.py:12
+msgid "Delete the movies you don't want in your list"
+msgstr ""
+
+#: dialog.py:13 main.py:146 main.py:213
 msgid "Edit"
 msgstr "Redakti"
 
-#: main.py:80 main.py:117
+#: dialog.py:13
+msgid "Change the title of your movies as many times as you want"
+msgstr ""
+
+#: dialog.py:14 dialog.py:19 main.py:217 main.py:254
 msgid "Seen"
 msgstr "Vidis"
 
-#: main.py:84
+#: dialog.py:14
+msgid "Mark your movie as Seen or Not Seen"
+msgstr ""
+
+#: dialog.py:15 main.py:221
 msgid "Recommendations"
 msgstr "Rekomendoj"
 
-#: main.py:117
-msgid "Title"
-msgstr "Titolo"
+#: dialog.py:15
+msgid "Get Recommendations based on your seen movies"
+msgstr ""
 
-#: main.py:128 main.py:137
-msgid "yes"
-msgstr "jes"
-
-#: main.py:129 main.py:139
-msgid "no"
-msgstr "neniu"
-
-#: main.py:149 main.py:169
-msgid "All"
-msgstr "Ĉiuj"
-
-#: main.py:149 main.py:171
-msgid "Seen "
-msgstr "Vidojn"
-
-#: main.py:149 main.py:173
-msgid "Watchlist"
-msgstr "Atentaro"
-
-#: main.py:183
+#: dialog.py:16 main.py:322
 msgid "Import"
 msgstr "Import"
 
-#: main.py:187
+#: dialog.py:16
+msgid "If you have a saved list of seen movies you can import it"
+msgstr ""
+
+#: dialog.py:17 main.py:326
 msgid "Export"
 msgstr "Eksportado"
 
-#: main.py:378
-msgid "You have seen no movies"
-msgstr "Vi nenion filmoj"
+#: dialog.py:17
+msgid "Export your seen movies"
+msgstr ""
 
-#: main.py:385
+#: dialog.py:18 main.py:286 main.py:306
+msgid "All"
+msgstr "Ĉiuj"
+
+#: dialog.py:18
+msgid "See the full list of saved Movies"
+msgstr ""
+
+#: dialog.py:19
+msgid "Just see the list of seen Movies"
+msgstr ""
+
+#: dialog.py:20 main.py:286 main.py:310
+msgid "Watchlist"
+msgstr "Atentaro"
+
+#: dialog.py:20
+msgid "Here you can check your no seen Movies"
+msgstr ""
+
+#: dialog.py:23 dialog.py:31
+msgid "User Help"
+msgstr ""
+
+#: dialog.py:58
+msgid "title"
+msgstr "titolo"
+
+#: dialog.py:70
+msgid "Reommendations"
+msgstr "Rekomendoj"
+
+#: dialog.py:70
+msgid "Select movies to add"
+msgstr ""
+
+#: dialog.py:82
+msgid "Exit"
+msgstr "Eliro"
+
+#: dialog.py:83
+msgid "Add All"
+msgstr "Aldoni Ĉiujn"
+
+#: dialog.py:138
 msgid "Error with Movie"
 msgstr "Eraro kun filmo"
 
-#: main.py:386
+#: dialog.py:139
 msgid "Movie already exists"
 msgstr "Filmo jam ekzistas"
 
-#: main.py:392
+#: dialog.py:146
 msgid "Connection Error"
 msgstr "Rilato Eraro"
 
-#: main.py:393
+#: dialog.py:148
+msgid "Timeout Exceeded"
+msgstr ""
+
+#: dialog.py:150
 msgid "Couldn't connect to the DataBase"
 msgstr "Ne povis konetki al la Datumbazo"
 
-#: main.py:400
+#: dialog.py:160
 msgid "You have no Movies"
 msgstr "Vi ne havas filmojn"
 
-#: main.py:401
+#: dialog.py:161
 msgid "We have some recommendations to get you started:"
 msgstr "Ni havas kelkajn rekomendojn al get vi komencis"
 
-#: main.py:414
-msgid "Recommendations based on your movies"
-msgstr "Rekomendoj bazitaj sur via filmoj"
+#: dialog.py:177
+msgid "You have seen no Movies"
+msgstr ""
 
-#: main.py:420
-msgid "No recommendations found"
-msgstr "Neniu rekomendoj trovita"
+#: dialog.py:179
+msgid "Mark your movies as seen to get recommendations"
+msgstr ""
+
+#: dialog.py:186
+msgid "No Recomendations Found"
+msgstr ""
+
+#: dialog.py:187
+msgid "Couldnt find recommendations for your movies"
+msgstr ""
+
+#: main.py:107
+msgid "You have seen no movies"
+msgstr "Vi nenion filmoj"
+
+#: main.py:169 main.py:487
+msgid "Cancel"
+msgstr "Nuligi"
+
+#: main.py:254
+msgid "Title"
+msgstr "Titolo"
+
+#: main.py:265 main.py:274
+msgid "yes"
+msgstr "jes"
+
+#: main.py:266 main.py:276
+msgid "no"
+msgstr "neniu"
+
+#: main.py:286 main.py:308
+msgid "Seen "
+msgstr "Vidojn"
+
+#~ msgid "Recommendations based on your movies"
+#~ msgstr "Rekomendoj bazitaj sur via filmoj"
+
+#~ msgid "No recommendations found"
+#~ msgstr "Neniu rekomendoj trovita"
