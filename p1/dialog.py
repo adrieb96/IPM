@@ -4,6 +4,50 @@ from gi.repository import Gtk
 import movies
 import gettext,locale
 
+class WHelp(Gtk.Window):
+
+    def __init__(self):
+
+        self.help_list = {_("Add"):_("Add your movies to the list"),
+                      _("Delete"):_("Delete the movies you don't want in your list"),
+                      _("Edit"):_("Change the title of your movies as many times as you want"),
+                      _("Seen"):_("Mark your movie as Seen or Not Seen"),
+                      _("Recommendations"):_("Get Recommendations based on your seen movies"),
+                      _("Import"):_("If you have a saved list of seen movies you can import it"),
+                      _("Export"):_("Export your seen movies"),
+                      _("All"):_("See the full list of saved Movies"),
+                      _("Seen"):_("Just see the list of seen Movies"),
+                      _("Watchlist"):_("Here you can check your no seen Movies")
+                     }
+        
+        Gtk.Window.__init__(self,title=_("User Help"))
+        self.set_border_width(5)
+
+        grid = Gtk.Grid()
+        grid.set_row_spacing(5)
+        self.add(grid)
+
+        title = Gtk.Label()
+        title.set_markup("<big><b>"+_("User Help")+"</b></big>")
+
+        txt = ""
+        for item in self.help_list:
+            txt += "<b>"+ item + "</b>: " + self.help_list[item] + '\n'
+
+        content = Gtk.Label()
+        content.set_markup(txt)
+
+        grid.attach(title,0,0,1,1)
+        grid.attach(content,0,1,3,2)
+
+        button = Gtk.Button.new_with_label("Ok")
+        button.connect("clicked", self.on_clicked)
+        grid.attach(button,0,3,3,1)
+
+    def on_clicked(self,button):
+        self.destroy()
+
+
 class WRecommendations(Gtk.Window):
 
     def __init__(self,tree,films):
@@ -70,8 +114,8 @@ class WRecommendations(Gtk.Window):
         self.add_movies(self.films)
 
 
-    def add_movies(self,movies):
-        for item in movies:
+    def add_movies(self,films):
+        for item in films:
             movie = movies.Movie(item)
             self.tree.peliculas.addMovie(movie)
         self.tree.refresh_tree(1)
@@ -147,6 +191,12 @@ class Dialog(object):
 
         window = WRecommendations(self.father.tree,films)
         window.show_all()
+
+
+    def get_help(self):
+       
+        whelp = WHelp()
+        whelp.show_all()
 
         """
         dialog = Gtk.MessageDialog(self.father,0,Gtk.MessageType.INFO, Gtk.ButtonsType.OK,_("Recommendations based on your movies"))

@@ -500,6 +500,10 @@ class Engine(Gtk.Window):
             self.thread.exit_thread() 
             Gtk.main_quit()
 
+ 
+    def on_pressed_key(self,widget,event):
+        if event.keyval == 65470:
+            self.dialog.get_help()
 
     def setMode(self,mode):
         self.mode=mode
@@ -670,16 +674,12 @@ class Engine(Gtk.Window):
             self.wvalidate.show_all()
             self.dialog.validation(titles)
     """
-            
-def on_pressed_key(widget,event):
-    if event.keyval == 65470:
-        print "DISPLAY HELP!!"
-
+           
 #------------------------------------MAIN------------------------------------ 
 #Creates Engine and start the application
 
 window = Engine()
 window.connect("delete-event", window.exit)
-window.connect("key-press-event", on_pressed_key)
+window.connect("key-press-event", window.on_pressed_key)
 window.show_all()
 Gtk.main()

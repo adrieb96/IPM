@@ -25,3 +25,7 @@
 - Se elimina el boton validate
 
 - El usuario puede añadir peliculas desde la opcion recomendaciones
+
+- El usuario puede añadir todas las películas que aparecen en recomendaciones con un boton
+
+- El usuario puede ver una pequeña guia pulsando f1 en la ventana principal
