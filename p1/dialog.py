@@ -184,7 +184,7 @@ class Dialog(object):
 
         if len(films)<1:
             dialog = Gtk.MessageDialog(self.father, 0, Gtk.MessageType.INFO, Gtk.ButtonsType.OK, _("No Recomendations Found"))
-            dialog.format_secondary_text(_("Couldnt found recommendations for your movies"))
+            dialog.format_secondary_text(_("Couldnt find recommendations for your movies"))
             dialog.run()
             dialog.destroy()
             return
