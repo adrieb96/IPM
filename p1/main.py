@@ -110,15 +110,15 @@ class API_Thread(threading.Thread):
             self.job = 0
         else:
             #if the api losses connection to the db it returns an error
-            if self.job == 1:
-                answer = self.recommendations()
-            elif self.job == 2:
-                pass
-            """
+            try:
+                if self.job == 1:
+                    answer = self.recommendations()
+                elif self.job == 2:
+                    pass
             except:
                 answer = []
                 self.job = -1
-            """
+
         #Calls the callback function and dies
         GObject.idle_add(self.callback,self.job,answer)
 
