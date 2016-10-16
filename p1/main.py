@@ -88,6 +88,9 @@ class API_Thread(threading.Thread):
                 else:
                     j=0
                     recs = self.API.get_recommendation(id_movie,2*i)
+                    if self.exit:
+                        return None
+
                     for movie in recs:
                         if j > i:
                             break
@@ -114,14 +117,17 @@ class API_Thread(threading.Thread):
             self.job = 0
         else:
             #if the api losses connection to the db it returns an error
-            try:
-                if self.job == 1:
-                    answer = self.recommendations()
-                elif self.job == 2:
-                    pass
-            except:
-                answer = []
-                self.job = -1
+            if self.exit:
+                answer = None
+            else:    
+                try:
+                    if self.job == 1:
+                        answer = self.recommendations()
+                    elif self.job == 2:
+                        pass
+                except:
+                    answer = []
+                    self.job = -1
 
         #Calls the callback function and dies
         GObject.idle_add(self.callback,self.job,answer)
@@ -445,39 +451,41 @@ class Engine(Gtk.Window):
         self.set_border_width(10)
 
         #creates grid
-        grid = Gtk.Grid()
-        grid.set_column_homogeneous(True)
-        grid.set_row_homogeneous(True)
-        grid.set_row_spacing(6)
-        grid.set_column_spacing(10)
-        self.add(grid)
+        self.grid = Gtk.Grid()
+        self.grid.set_column_homogeneous(True)
+        self.grid.set_row_homogeneous(True)
+        self.grid.set_row_spacing(6)
+        self.grid.set_column_spacing(10)
+        self.add(self.grid)
 
         #creates the tree and adds it to the grid
         self.tree = TreeList()
         self.scrollable_treelist = Gtk.ScrolledWindow()
         self.scrollable_treelist.set_vexpand(True)
-        grid.attach(self.scrollable_treelist, 0, 0, 3, 8)
+        self.grid.attach(self.scrollable_treelist, 0, 0, 3, 8)
         self.scrollable_treelist.add(self.tree.treeList)
 
         #creates the buttons and add them to the grid
         self.actions = Buttons(self.ask_movie,self.delete_movie,self.seen_movie,self.recommendations)
-        grid.attach(self.actions.buttons,3,0,2,5)
+        self.grid.attach(self.actions.buttons,3,0,2,5)
         
         #creates the combo box
         self.combo = OptionsBox(self.setMode)
-        grid.attach(self.combo.box,0,8,1,1)
+        self.grid.attach(self.combo.box,0,8,1,1)
 
         #creates the Files buttons
         self.files = Files(self.tree,self.thread)
-        grid.attach(self.files.buttons,3,8,2,1)
+        self.grid.attach(self.files.buttons,3,8,2,1)
 
         #creates the validate button
         #self.validate = Validate(self.validate_movie)
         #grid.attach(self.validate.button,1,8,2,1)
     
         self.spinner = Gtk.Spinner()
-        grid.attach(self.spinner,3,5,2,1)
+        self.grid.attach(self.spinner,3,5,1,1)
 
+        self.cancel_button = Gtk.Button.new_with_label(_("Cancel"))
+        self.cancel_button.connect("clicked", self.on_cancel)
         #creates a label on the bottom right corner
         #label = Gtk.Label("\n  Adrian & Corton")
         #grid.attach(label,4,8,1,1)
@@ -502,13 +510,21 @@ class Engine(Gtk.Window):
     def start_spinner(self,mode,arg):
 
         self.spinner.start()
+        self.grid.attach(self.cancel_button,4,5,1,1)
+        self.cancel_button.show()
         self.thread = API_Thread(self.stop_spinner,mode,arg)
         self.thread.start()
  
+    def on_cancel(self,button):
+        if self.thread is None:
+            return
+        self.thread.exit_thread()
+
     #Stops the spinner and handles the answer 
     def stop_spinner(self,mode,answer):
 
         self.spinner.stop()
+        self.grid.remove(self.cancel_button)
         self.thread = None
 
         if answer is None:

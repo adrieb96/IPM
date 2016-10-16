@@ -4,8 +4,8 @@ import json
 key = "ec388678283f75639302a76fd4944cb4"
 
 #Connects to the db and returns the answer
-def get_response(url):
-    response = requests.get(url,timeout=7)
+def get_response(url,timeout=7):
+    response = requests.get(url,timeout)
     return json.loads(response.text)
 
 class TMDB(object):
@@ -19,7 +19,7 @@ class TMDB(object):
     #Tries to connect to the DB
     def try_connection(self):
         try:
-            get_response(self.db+"?api_key="+key)
+            get_response(self.db+"?api_key="+key,2)
             return True
         except:
             return False

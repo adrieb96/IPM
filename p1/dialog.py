@@ -9,7 +9,7 @@ class WRecommendations(Gtk.Window):
     def __init__(self,tree,films):
         
         self.tree = tree
-        self.movies = movies
+        self.films = films
 
         Gtk.Window.__init__(self,title=_("title"))
         self.set_border_width(5)
@@ -27,21 +27,8 @@ class WRecommendations(Gtk.Window):
         title.set_justify(Gtk.Justification.LEFT)
         grid.attach(title,0,0,2,2)
 
-        """
-        select_tree = Gtk.ListStore(str)
-        options = [_("Title"),_("Year"),_("Votes")]
-        for option in options:
-            select_tree.append([option])
-
-        combo = Gtk.ComboBox.new_with_model(select_tree)
-        renderer = Gtk.CellRendererText()
-        combo.pack_start(renderer,True)
-        combo.add_attribute(renderer,"text",0)
-        grid.attach(combo,2,0,1,1)
-        """
-
         i=2
-        for film in films:
+        for film in self.films:
             button = Gtk.CheckButton(film)
             grid.attach(button,0,i,3,1)
             button.connect("toggled",self.on_toggled,film)
@@ -49,22 +36,26 @@ class WRecommendations(Gtk.Window):
 
         button1 = Gtk.Button.new_with_label(_("Add"))
         button2 = Gtk.Button.new_with_label(_("Exit"))
+        button3 = Gtk.Button.new_with_label(_("Add All"))
 
         button1.connect("clicked", self.on_add)
         button2.connect("clicked", self.on_exit)
+        button3.connect("clicked", self.on_add_all)
 
         grid.attach(button1,0,i,1,1)
-        grid.attach(button2,1,i,1,1)
+        grid.attach(button3,1,i,1,1)
+        grid.attach(button2,2,i,1,1)
 
-    def movie_list(self,films):
-        i = 1
-        for film in films:
-            button = Gtk.CheckButton(film)
-            grid.attach(button,0,i,2,1)
-            button.connect("toggled",self.on_toggled,film)
-            i+=1
+        self.connect("key-press-event", self.on_pressed_key)
 
+    def on_pressed_key(self,widget,event): 
+        if event.keyval == 65293:
+            self.add_movies(self.movies)
 
+        elif event.keyval == 65307:
+            self.destroy()
+
+                
     def on_toggled(self,widget,movie=None):
         if widget.get_active():
             self.movies.append(movie)
@@ -72,12 +63,20 @@ class WRecommendations(Gtk.Window):
             self.movies.remove(movie)
 
     def on_add(self,button):
-        for item in self.movies:
+        self.add_movies(self.movies)
+
+
+    def on_add_all(self,button):
+        self.add_movies(self.films)
+
+
+    def add_movies(self,movies):
+        for item in movies:
             movie = movies.Movie(item)
             self.tree.peliculas.addMovie(movie)
-
         self.tree.refresh_tree(1)
         self.destroy()
+
 
     def on_exit(self,button):
         self.destroy()
@@ -102,7 +101,7 @@ class Dialog(object):
 
         dialog = Gtk.MessageDialog(self.father, 0, Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, _("Connection Error"))
         if err == -1:
-            dialog.format_secondary_text(_("Timeout exceeded"))
+            dialog.format_secondary_text(_("Timeout Exceeded"))
         if err == 0:
             dialog.format_secondary_text(_("Couldn't connect to the DataBase"))
 

@@ -71,14 +71,18 @@ class MyMovies(object):
                 return movies
         return None
 
+
 class Movie(object):
 
     def __init__(self,title):
+
+        if type(title) is unicode:
+            title = title.encode('utf-8')
         self.title = title
         self.status = False
 
     def equals(self,movie):
-        return self.title.lower() == movie.title.lower()
+        return self.title.lower() == movie.title.lower() 
     
     def getTitle(self):
         return self.title
