@@ -17,17 +17,30 @@ class WRecommendations(Gtk.Window):
         grid = Gtk.Grid()
         grid.set_column_homogeneous(True)
         grid.set_row_homogeneous(True)
-        grid.set_row_spacing(6)
-        grid.set_column_spacing(10)
+        grid.set_row_spacing(4)
+        grid.set_column_spacing(5)
         self.add(grid)
         self.movies = []
 
         title = Gtk.Label()
-        title.set_markup("<b>"+_("Movies")+":</b> "+_("select movies to add"))
+        title.set_markup("<b>"+_("Reommendations")+":</b>\n"+_("Select movies to add"))
         title.set_justify(Gtk.Justification.LEFT)
-        grid.attach(title,0,0,2,1)
+        grid.attach(title,0,0,2,2)
 
-        i=1
+        """
+        select_tree = Gtk.ListStore(str)
+        options = [_("Title"),_("Year"),_("Votes")]
+        for option in options:
+            select_tree.append([option])
+
+        combo = Gtk.ComboBox.new_with_model(select_tree)
+        renderer = Gtk.CellRendererText()
+        combo.pack_start(renderer,True)
+        combo.add_attribute(renderer,"text",0)
+        grid.attach(combo,2,0,1,1)
+        """
+
+        i=2
         for film in films:
             button = Gtk.CheckButton(film)
             grid.attach(button,0,i,3,1)
@@ -42,6 +55,15 @@ class WRecommendations(Gtk.Window):
 
         grid.attach(button1,0,i,1,1)
         grid.attach(button2,1,i,1,1)
+
+    def movie_list(self,films):
+        i = 1
+        for film in films:
+            button = Gtk.CheckButton(film)
+            grid.attach(button,0,i,2,1)
+            button.connect("toggled",self.on_toggled,film)
+            i+=1
+
 
     def on_toggled(self,widget,movie=None):
         if widget.get_active():
@@ -106,8 +128,23 @@ class Dialog(object):
         dialog.run()
         dialog.destroy()
 
+    
+    def no_seen_movies(self):
 
+        dialog = Gtk.MessageDialog(self.father, 0, Gtk.MessageType.INFO, Gtk.ButtonsType.OK, _("You have seen no Movies"))
+        
+        dialog.format_secondary_text(_("Mark your movies as seen to get recommendations"))
+        dialog.run()
+        dialog.destroy()
+    
     def recommendations(self,films):
+
+        if len(films)<1:
+            dialog = Gtk.MessageDialog(self.father, 0, Gtk.MessageType.INFO, Gtk.ButtonsType.OK, _("No Recomendations Found"))
+            dialog.format_secondary_text(_("Couldnt found recommendations for your movies"))
+            dialog.run()
+            dialog.destroy()
+            return
 
         window = WRecommendations(self.father.tree,films)
         window.show_all()

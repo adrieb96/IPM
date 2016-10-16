@@ -86,13 +86,17 @@ class API_Thread(threading.Thread):
                 if id_movie is None:
                     pass
                 else:
-                    recs = self.API.get_recommendation(id_movie,i)
+                    j=0
+                    recs = self.API.get_recommendation(id_movie,2*i)
                     for movie in recs:
+                        if j > i:
+                            break
                         if movie in rec_list:
                             if repeat:  
                                 break
                         else:    
                             rec_list.append(movie)
+                            j+=1
 
             msg = approve(rec_list,seen)
 
@@ -131,8 +135,13 @@ class WEntry(Gtk.Window):
     def __init__(self,funct,title):
 
         self.funct = funct
-
-        Gtk.Window.__init__(self, title=_("entry"))
+    
+        if title != _("Add"):
+            WTitle = _("Edit")
+        else:
+            WTitle = title
+        
+        Gtk.Window.__init__(self, title=_(WTitle))
         self.set_size_request(200,50)
 
         self.timeout_id = None
@@ -614,6 +623,10 @@ class Engine(Gtk.Window):
             self.dialog.no_films()
         else:
             seen = self.tree.peliculas.getSeen()
+            if len(seen)<1:
+                self.dialog.no_seen_movies()
+                return
+
             self.start_spinner(1,seen)
 
     """

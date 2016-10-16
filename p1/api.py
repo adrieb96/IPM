@@ -5,7 +5,7 @@ key = "ec388678283f75639302a76fd4944cb4"
 
 #Connects to the db and returns the answer
 def get_response(url):
-    response = requests.get(url,timeout=10)
+    response = requests.get(url,timeout=7)
     return json.loads(response.text)
 
 class TMDB(object):
