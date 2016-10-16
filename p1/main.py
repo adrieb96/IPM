@@ -132,7 +132,7 @@ class WEntry(Gtk.Window):
 
         self.funct = funct
 
-        Gtk.Window.__init__(self, title=_("title"))
+        Gtk.Window.__init__(self, title=_("entry"))
         self.set_size_request(200,50)
 
         self.timeout_id = None
@@ -515,7 +515,7 @@ class Engine(Gtk.Window):
     def ask_movie(self,mode):
 
         if mode == 1: #add movie
-            self.wentry = WEntry(self.add_movie,"") 
+            self.wentry = WEntry(self.add_movie,_("Add")) 
 
         else: #edit movie
             if not (self.thread is None):
@@ -536,7 +536,7 @@ class Engine(Gtk.Window):
  
         #destroys entry window, checks if title is empty and adds it to the list
         self.wentry.destroy()
-        if title.isspace() or len(title) < 1:
+        if title.isspace() or len(title) < 1 or title == _("Add"):
             return
 
         movie = movies.Movie(title)

@@ -23,3 +23,5 @@
 	- Pueden tardar un poco en cerrarse
 
 - Se elimina el boton validate
+
+- El usuario puede añadir peliculas desde la opcion recomendaciones

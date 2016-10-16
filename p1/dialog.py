@@ -4,6 +4,62 @@ from gi.repository import Gtk
 import movies
 import gettext,locale
 
+class WRecommendations(Gtk.Window):
+
+    def __init__(self,tree,films):
+        
+        self.tree = tree
+        self.movies = movies
+
+        Gtk.Window.__init__(self,title=_("title"))
+        self.set_border_width(5)
+
+        grid = Gtk.Grid()
+        grid.set_column_homogeneous(True)
+        grid.set_row_homogeneous(True)
+        grid.set_row_spacing(6)
+        grid.set_column_spacing(10)
+        self.add(grid)
+        self.movies = []
+
+        title = Gtk.Label()
+        title.set_markup("<b>"+_("Movies")+":</b> "+_("select movies to add"))
+        title.set_justify(Gtk.Justification.LEFT)
+        grid.attach(title,0,0,2,1)
+
+        i=1
+        for film in films:
+            button = Gtk.CheckButton(film)
+            grid.attach(button,0,i,3,1)
+            button.connect("toggled",self.on_toggled,film)
+            i+=1
+
+        button1 = Gtk.Button.new_with_label(_("Add"))
+        button2 = Gtk.Button.new_with_label(_("Exit"))
+
+        button1.connect("clicked", self.on_add)
+        button2.connect("clicked", self.on_exit)
+
+        grid.attach(button1,0,i,1,1)
+        grid.attach(button2,1,i,1,1)
+
+    def on_toggled(self,widget,movie=None):
+        if widget.get_active():
+            self.movies.append(movie)
+        else:
+            self.movies.remove(movie)
+
+    def on_add(self,button):
+        for item in self.movies:
+            movie = movies.Movie(item)
+            self.tree.peliculas.addMovie(movie)
+
+        self.tree.refresh_tree(1)
+        self.destroy()
+
+    def on_exit(self,button):
+        self.destroy()
+
 
 class Dialog(object):
 
@@ -51,8 +107,12 @@ class Dialog(object):
         dialog.destroy()
 
 
-    def recommendations(self,msg):
+    def recommendations(self,films):
 
+        window = WRecommendations(self.father.tree,films)
+        window.show_all()
+
+        """
         dialog = Gtk.MessageDialog(self.father,0,Gtk.MessageType.INFO, Gtk.ButtonsType.OK,_("Recommendations based on your movies"))
         text=""
         for film in msg:
@@ -63,7 +123,9 @@ class Dialog(object):
         dialog.format_secondary_text(text)
         dialog.run()
         dialog.destroy()
+        """
 
+    """
     def validated(self,title,mode):
 
         msg = {1:_("Movie Exists"), 2:_("Movie doesnt Exist")}
@@ -84,4 +146,4 @@ class Dialog(object):
         dialog.run()
         dialog.destroy()
 
-
+    """
