@@ -1,0 +1,6 @@
+# view AndroidManifest.xml #generated:7
+-keep class es.fic.ipm.ipm_main { <init>(...); }
+
+# onClick res/layout/main.xml #generated:28
+-keepclassmembers class * { *** addElement(...); }
+

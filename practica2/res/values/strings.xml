@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">ipm_main</string>
+	<string name="button_send">Add</string>
+	<string name="edit_message">Add Category...</string>
+
+
+	<string name="delete">Delete</string>
+	<string name="edit">Edit</string>
+</resources>
