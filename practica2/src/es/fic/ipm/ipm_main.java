@@ -3,10 +3,11 @@ package es.fic.ipm;
 import android.app.Activity;
 import android.os.Bundle;
 
-//import android.widget.TextView;
+import android.widget.TextView;
 import android.widget.ListView;
 import android.widget.EditText;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -25,8 +26,9 @@ public class ipm_main extends Activity{
     @Override
     public void onCreate(Bundle icicle){
         super.onCreate(icicle);
-        setContentView(R.layout.main);
+        setContentView(R.layout.main2);
 		
+		TextView message = (TextView) findViewById(R.id.message);
 		ListView listView = (ListView) findViewById(R.id.milista);
 
 		adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,android.R.id.text1, lista);
@@ -40,7 +42,7 @@ public class ipm_main extends Activity{
     }
 
 	/** Creates a Context Menu */
-	@Override
+/*	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
 		super.onCreateContextMenu(menu, v, menuInfo);
 		MenuInflater inflater = getMenuInflater();
@@ -72,7 +74,7 @@ public class ipm_main extends Activity{
 		if(!lista.isEmpty()){
 			for(String e :lista){
 				if(element.compareToIgnoreCase(e)==0) return;
-				else if(element.compareToIgnoreCase(e)>0) break;
+				else if(element.compareToIgnoreCase(e)<0) break;
 				i++;
 			}
 		}
