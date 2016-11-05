@@ -8,6 +8,7 @@
 /home/adrian/Documents/GEI/IPM/p2/res/drawable-ldpi/ic_launcher.png \
 /home/adrian/Documents/GEI/IPM/p2/res/drawable-hdpi/ic_add_circle_black_48dp.png \
 /home/adrian/Documents/GEI/IPM/p2/res/drawable-hdpi/ic_launcher.png \
+/home/adrian/Documents/GEI/IPM/p2/res/values/colors.xml \
 /home/adrian/Documents/GEI/IPM/p2/res/values/styles.xml \
 /home/adrian/Documents/GEI/IPM/p2/res/values/strings.xml \
 /home/adrian/Documents/GEI/IPM/p2/res/drawable-mdpi/ic_add_circle_black_48dp.png \

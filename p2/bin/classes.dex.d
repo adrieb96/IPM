@@ -6,6 +6,7 @@
 /home/adrian/Documents/GEI/IPM/p2/bin/classes/es/fic/ipm/R$attr.class \
 /home/adrian/Documents/GEI/IPM/p2/bin/classes/es/fic/ipm/app_main.class \
 /home/adrian/Documents/GEI/IPM/p2/bin/classes/es/fic/ipm/R.class \
+/home/adrian/Documents/GEI/IPM/p2/bin/classes/es/fic/ipm/R$color.class \
 /home/adrian/Documents/GEI/IPM/p2/bin/classes/es/fic/ipm/R$string.class \
 /home/adrian/Documents/GEI/IPM/p2/bin/classes/es/fic/ipm/R$menu.class \
 /home/adrian/Documents/GEI/IPM/p2/bin/classes/es/fic/ipm/R$id.class \

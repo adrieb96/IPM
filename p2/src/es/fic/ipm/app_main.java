@@ -96,15 +96,17 @@ public class app_main extends Activity{
 		EditText editText = (EditText) findViewById(R.id.text_edit);
 		String element = editText.getText().toString().trim();
 
-		InputMethodManager inputManager = (InputMethodManager) 
-			getSystemService(Context.INPUT_METHOD_SERVICE);
-
-		inputManager.hideSoftInputFromWindow(editText.
-				getWindowToken(), 0);
-
 		editText.setText("");
 		if(element.length()<1) return;
-		if(!addElement(element)) throwToast(1);
+			
+		InputMethodManager inputManager = (InputMethodManager) 
+			getSystemService(Context.INPUT_METHOD_SERVICE);
+			
+		inputManager.hideSoftInputFromWindow(editText.
+				getWindowToken(), 0);
+		
+		if(!addElement(element))
+			if(!editing)throwToast(1);
 		else{
 			if(editing){
 				deleteElement(old);
@@ -114,12 +116,9 @@ public class app_main extends Activity{
 			}
 			adapter.notifyDataSetChanged();
 		}
-		/*
-		listItems.add("Clicked: "+clickCounter++);
-		adapter.notifyDataSetChanged();*/
 	}
-
-
+	
+	
 	public void editElement(String element){
 
 		EditText editText = (EditText) findViewById(R.id.text_edit);
