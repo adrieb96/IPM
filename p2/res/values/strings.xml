@@ -5,4 +5,7 @@
 	<string name="edit_message">Item name...</string>
 	<string name="edit">Edit</string>
 	<string name="delete">Delete</string>
+
+	<string name="edited">Item Changed!</string>
+
 </resources>

@@ -13,6 +13,7 @@ import android.widget.EditText;
 
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +28,9 @@ public class app_main extends Activity{
 
 	ListView listView;
 
+	boolean editing = false;
+	String old = "";
+	
     @Override
     public void onCreate(Bundle icicle){
         super.onCreate(icicle);
@@ -61,7 +65,8 @@ public class app_main extends Activity{
 
 		String element = listView.getAdapter().getItem(info.position).toString();
 		switch(item.getItemId()){
-			case R.id.MenuEdit: throwToast(2); return true;
+			case R.id.MenuEdit:	editElement(element);
+								return true;
 			case R.id.MenuDelete: throwToast(3); 
 								  deleteElement(element);
 								  return true;
@@ -77,7 +82,8 @@ public class app_main extends Activity{
 		int duration = Toast.LENGTH_SHORT;
 		switch(opt){
 			case 1: text = "Item Already Exists!"; break;
-			case 2: text = "Edit Selected!"; break;
+			case 2: text = (CharSequence) getResources().getString(R.string.edited); 
+					break;
 			case 3: text = "Delete Selected!"; break;
 			default: break;
 		}
@@ -90,13 +96,40 @@ public class app_main extends Activity{
 		EditText editText = (EditText) findViewById(R.id.text_edit);
 		String element = editText.getText().toString().trim();
 
+		InputMethodManager inputManager = (InputMethodManager) 
+			getSystemService(Context.INPUT_METHOD_SERVICE);
+
+		inputManager.hideSoftInputFromWindow(editText.
+				getWindowToken(), 0);
+
 		editText.setText("");
 		if(element.length()<1) return;
 		if(!addElement(element)) throwToast(1);
-		else adapter.notifyDataSetChanged();
+		else{
+			if(editing){
+				deleteElement(old);
+				old="";
+				editing=false;
+				throwToast(2);
+			}
+			adapter.notifyDataSetChanged();
+		}
 		/*
 		listItems.add("Clicked: "+clickCounter++);
 		adapter.notifyDataSetChanged();*/
+	}
+
+
+	public void editElement(String element){
+
+		EditText editText = (EditText) findViewById(R.id.text_edit);
+
+		InputMethodManager inputManager = (InputMethodManager) 
+			getSystemService(Context.INPUT_METHOD_SERVICE);
+
+		inputManager.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+		old = element;
+		editing = true;
 	}
 
 	public void deleteElement(String element){

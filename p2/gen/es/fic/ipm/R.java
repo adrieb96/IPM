@@ -34,6 +34,7 @@ public final class R {
         public static final int delete=0x7f040004;
         public static final int edit=0x7f040003;
         public static final int edit_message=0x7f040002;
+        public static final int edited=0x7f040005;
     }
     public static final class style {
         public static final int AppTheme=0x7f050000;
