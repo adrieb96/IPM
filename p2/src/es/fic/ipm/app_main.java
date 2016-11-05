@@ -5,9 +5,16 @@ import android.os.Bundle;
 import android.content.Context;
 
 import android.widget.ListView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import android.widget.EditText;
+
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -18,26 +25,62 @@ public class app_main extends Activity{
 
 	ArrayAdapter<String> adapter;
 
-	int clickCounter = 0;
+	ListView listView;
 
     @Override
     public void onCreate(Bundle icicle){
         super.onCreate(icicle);
         setContentView(R.layout.main);
 
-		ListView listView = (ListView) findViewById(R.id.milista);
+		listView = (ListView) findViewById(R.id.milista);
+
+		registerForContextMenu(listView);
 
 		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, listItems);
 		listView.setAdapter(adapter);
     }
 
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
+		super.onCreateContextMenu(menu,v,menuInfo);
+
+		MenuInflater inflater = getMenuInflater();
+
+		AdapterContextMenuInfo info = 
+			(AdapterContextMenuInfo) menuInfo;
+		
+		menu.setHeaderTitle(listView.getAdapter().getItem(info.position).toString());
+
+		inflater.inflate(R.menu.menu, menu);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item){
+		AdapterContextMenuInfo info = 
+			(AdapterContextMenuInfo) item.getMenuInfo();
+
+		String element = listView.getAdapter().getItem(info.position).toString();
+		switch(item.getItemId()){
+			case R.id.MenuEdit: throwToast(2); return true;
+			case R.id.MenuDelete: throwToast(3); 
+								  deleteElement(element);
+								  return true;
+			default: 
+				return super.onContextItemSelected(item);
+		}
+	}
+
+
 	public void throwToast(int opt){
 		Context context = getApplicationContext();
 		CharSequence text = "HELLO!!";
 		int duration = Toast.LENGTH_SHORT;
-		if (opt==1){
-			text = "Item Already Exists!";
-		}	
+		switch(opt){
+			case 1: text = "Item Already Exists!"; break;
+			case 2: text = "Edit Selected!"; break;
+			case 3: text = "Delete Selected!"; break;
+			default: break;
+		}
 		
 		Toast.makeText(context,text,duration).show();
 	}
@@ -54,6 +97,12 @@ public class app_main extends Activity{
 		/*
 		listItems.add("Clicked: "+clickCounter++);
 		adapter.notifyDataSetChanged();*/
+	}
+
+	public void deleteElement(String element){
+		if(listItems.remove(element))
+			adapter.notifyDataSetChanged();
+
 	}
 
 	public boolean addElement(String element){
