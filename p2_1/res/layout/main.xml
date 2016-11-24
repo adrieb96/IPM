@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:context=".app_main"
+	android:orientation="vertical"
+	android:paddingLeft="16dp"
+	android:paddingRight="16dp"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+	<ListView
+		android:id="@+id/milista"
+    	android:layout_width="fill_parent"
+		android:layout_weight="1"
+		android:layout_height="0dp"/>
+
+
+	<LinearLayout
+		android:id="@+id/linear_1"
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		>	
+		<EditText
+			android:id="@+id/text_edit"
+			android:hint="@string/edit_message"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:layout_width="0dp"/>
+		<Button
+			android:id="@+id/add_button"
+			android:text="@string/add"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:onClick="sendMessage"/>
+		
+	</LinearLayout>
+
+</LinearLayout>
