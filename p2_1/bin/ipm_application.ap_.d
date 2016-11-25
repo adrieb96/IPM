@@ -1,0 +1,25 @@
+/home/adrian/Documentos/GEI/IPM/p22/bin/ipm_application.ap_ \
+ : /home/adrian/Documentos/GEI/IPM/p22/res/drawable-xxxhdpi/ic_add_circle_black_48dp.png \
+/home/adrian/Documentos/GEI/IPM/p22/res/values/strings.xml \
+/home/adrian/Documentos/GEI/IPM/p22/res/values/colors.xml \
+/home/adrian/Documentos/GEI/IPM/p22/res/values/styles.xml \
+/home/adrian/Documentos/GEI/IPM/p22/res/drawable-xhdpi/ic_add_circle_black_48dp.png \
+/home/adrian/Documentos/GEI/IPM/p22/res/drawable-xhdpi/ic_launcher.png \
+/home/adrian/Documentos/GEI/IPM/p22/res/layout/main.xml \
+/home/adrian/Documentos/GEI/IPM/p22/res/drawable-mdpi/ic_add_circle_black_48dp.png \
+/home/adrian/Documentos/GEI/IPM/p22/res/drawable-mdpi/ic_launcher.png \
+/home/adrian/Documentos/GEI/IPM/p22/res/menu/menu.xml \
+/home/adrian/Documentos/GEI/IPM/p22/res/drawable-hdpi/ic_add_circle_black_48dp.png \
+/home/adrian/Documentos/GEI/IPM/p22/res/drawable-hdpi/ic_launcher.png \
+/home/adrian/Documentos/GEI/IPM/p22/res/drawable-xxhdpi/ic_add_circle_black_48dp.png \
+/home/adrian/Documentos/GEI/IPM/p22/res/drawable-ldpi/ic_launcher.png \
+/home/adrian/Documentos/GEI/IPM/p22/bin/res/drawable-xxxhdpi/ic_add_circle_black_48dp.png \
+/home/adrian/Documentos/GEI/IPM/p22/bin/res/drawable-xhdpi/ic_add_circle_black_48dp.png \
+/home/adrian/Documentos/GEI/IPM/p22/bin/res/drawable-xhdpi/ic_launcher.png \
+/home/adrian/Documentos/GEI/IPM/p22/bin/res/drawable-mdpi/ic_add_circle_black_48dp.png \
+/home/adrian/Documentos/GEI/IPM/p22/bin/res/drawable-mdpi/ic_launcher.png \
+/home/adrian/Documentos/GEI/IPM/p22/bin/res/drawable-hdpi/ic_add_circle_black_48dp.png \
+/home/adrian/Documentos/GEI/IPM/p22/bin/res/drawable-hdpi/ic_launcher.png \
+/home/adrian/Documentos/GEI/IPM/p22/bin/res/drawable-xxhdpi/ic_add_circle_black_48dp.png \
+/home/adrian/Documentos/GEI/IPM/p22/bin/res/drawable-ldpi/ic_launcher.png \
+/home/adrian/Documentos/GEI/IPM/p22/bin/AndroidManifest.xml \
