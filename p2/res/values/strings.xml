@@ -3,4 +3,6 @@
     <string name="app_name">Main</string>
 	<string name="edit_message">Category Name...</string>
 	<string name="add">Add</string>
+	<string name="edit">Edit</string>
+	<string name="delete">Delete</string>
 </resources>

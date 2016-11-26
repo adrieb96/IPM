@@ -5,33 +5,17 @@
 	android:paddingRight="16dp"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-	<!--
+
 	<fragment android:name="udc.fic.ipm.Item_List"
 		android:id="@+id/list_1"
 		android:layout_weight="1"
     	android:layout_width="match_parent"
 	    android:layout_height="0dp"/>
--->
-	<LinearLayout
-		android:orientation="horizontal"
-		android:layout_height="wrap_content"
-		android:layout_width="fill_parent">
 
-		<EditText
-			android:id="@+id/text_edit"
-			android:hint="@string/edit_message"
-			android:layout_weight="1"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"/>
-
-		<Button
-			android:id="@+id/add_button"
-			android:text="@string/add"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-				android:onClick="sendMessage"/>
-
-	</LinearLayout>
+	<fragment android:name="udc.fic.ipm.Item_Add"
+		android:id="@+id/add_1"
+    	android:layout_width="match_parent"
+	    android:layout_height="wrap_content"/>
 
 </LinearLayout>
 
