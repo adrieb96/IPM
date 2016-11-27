@@ -27,6 +27,7 @@ public class Main extends Activity
 
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
+	private Sensor mMagnetic;
 	private ShakeDetector mShakeDetector;
 	private int level = 0;
 
@@ -43,6 +44,7 @@ public class Main extends Activity
 		//Initialize ShakeDetector
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		mMagnetic = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 		mShakeDetector = new ShakeDetector();
 		mShakeDetector.setOnShakeListener(new OnShakeListener(){
 			@Override
@@ -55,9 +57,19 @@ public class Main extends Activity
 				handleShakeEvent("Face Down");
 			}
 
-			@Override 
+			@Override
+			public void onRotation(){
+				handleShakeEvent("Rotation");
+			}
+
+			@Override  
 			public void onMovement(){
 				Log.i("MOVEMENT", "MOVEMENT DETECTED");
+			}
+
+			@Override
+			public void onMovement(String str){
+				Log.i("MOVEMENT", str);
 			}
 		});
 
@@ -80,6 +92,8 @@ public class Main extends Activity
 	public void onResume(){
 		super.onResume();
 		mSensorManager.registerListener(mShakeDetector, mAccelerometer, 
+				SensorManager.SENSOR_DELAY_UI);
+		mSensorManager.registerListener(mShakeDetector, mMagnetic, 
 				SensorManager.SENSOR_DELAY_UI);
 	}
 	
