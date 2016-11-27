@@ -30,6 +30,7 @@ public class Item_List extends Fragment{
 	ArrayAdapter<String> adapter;
 
 	ListView listView;
+	Button button;
 
 	String selected;
 
@@ -51,7 +52,7 @@ public class Item_List extends Fragment{
 
 		View rootView = inflater.inflate(R.layout.item_list,container,false);
 		listView = (ListView) rootView.findViewById(R.id.list);
-		Button button = (Button) rootView.findViewById(R.id.add_button);
+		button = (Button) rootView.findViewById(R.id.add_button);
 
 		//categories_list.add("Vigo");
 		adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, categories_list);
@@ -80,6 +81,7 @@ public class Item_List extends Fragment{
 					editItem(text);
 				}
 				state = State.ADD;
+				button.setText("Add");
 				refreshView();
 			}
 		});
@@ -112,6 +114,7 @@ public class Item_List extends Fragment{
 		switch(item.getItemId()){
 			case R.id.menu_edit: 
 				state = State.EDIT;
+				button.setText("Edit");
 				return true;
 			case R.id.menu_delete:
 				if(deleteItem(selected)) throwToast(2);
