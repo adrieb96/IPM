@@ -2,18 +2,19 @@ package udc.fic.ipm;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.content.Context;
 
 import android.view.View;
 
 import android.widget.Toast;
-
+import java.util.ArrayList;
 
 public class Main extends Activity 
 {
 
-	//String element;
+	ArrayList<Category> categories_list;	
 
     /** Called when the activity is first created. */
     @Override
@@ -27,21 +28,34 @@ public class Main extends Activity
 			//if we are being restored return
 			if(savedInstanceState != null) return;
 
-			Item_List fragment_1 = new Item_List();
-			//Item_Add  fragment_2 = new Item_Add();
+			categories_list = new ArrayList<Category>();
+
+			Category_List fragment_1 = new Category_List();
 
 			getFragmentManager().beginTransaction().add(
 					R.id.main_container, fragment_1).commit();
 
-			/*
-			getFragmentManager().beginTransaction().add(
-					R.id.main_container, fragment_2).commit();
-					*/
-
 		}
-
-
     }
+
+	public void showCategory(String category){
+		Category cat = searchCategory(category);
+
+		if(cat == null) return;
+
+		ArrayList<String> items = cat.getItems();
+		String title = cat.getTitle();
+
+		Item_List fragment = new Item_List(title, items);
+
+		FragmentTransaction transaction = 
+			getFragmentManager().beginTransaction();
+
+		transaction.replace(R.id.main_container, fragment);
+		transaction.addToBackStack(null);
+
+		transaction.commit();
+	}
 
 	public void throwToast(String txt){
 		CharSequence text = (CharSequence) txt;
@@ -67,32 +81,31 @@ public class Main extends Activity
 		Toast.makeText(context,text,duration).show();
 	}
 
-	public void addItem(String element){
-		/*
-		Item_List fragment = (Item_List) 
-			getFragmentManager().findFragmentById(R.id.list_1);
-
-		if(fragment == null) throwToast(3);
-		else fragment.addItem(element);
-		*/
+	public boolean addItem(String title){
+		return categories_list.add(new Category(title));
 	}
 
-/*
-	public void receiveItem(String item){
-		element = item;
+	public boolean deleteItem(String title){
+		return categories_list.remove(searchCategory(title));
 	}
 
-	public String getNewItem(){
-		Item_Add fragment = (Item_Add) 
-			getFragmentManager().findFragmentById(R.id.add_1);
+	public boolean changeItem(String old, String title){
+		Category cat = searchCategory(old);
 
-		if(fragment==null) return null;
-		element = null;
-		fragment.editItem();
+		if(cat == null) return false;
 
-		while (element == null){} 
+		cat.setTitle(title);
+		return true;
+	}
 
-		return element;
+	public void passItems(String title, ArrayList<String> items){
+		searchCategory(title).setItems(items);
+	}
 
-	}*/
+	public Category searchCategory(String title){
+		for(Category cat: categories_list){
+			if(cat.getTitle().equals(title)) return cat;
+		}
+		return null;
+	}
 }

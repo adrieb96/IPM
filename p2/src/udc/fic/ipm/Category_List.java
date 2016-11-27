@@ -19,22 +19,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Item_List extends Fragment{
+public class Category_List extends Fragment{
 
-	ArrayList<String> items;
-	String title;
+	ArrayList<String> title_list = new ArrayList<String>();
 
 	ArrayAdapter<String> adapter;
 
 	ListView listView;
 	Button button;
-	TextView textView;
 
 	String selected;
 
@@ -45,9 +42,7 @@ public class Item_List extends Fragment{
 		EDIT};
 
 
-	public Item_List(String title, ArrayList<String> items){
-		this.title = title;
-		this.items = items;
+	public Category_List(){
 		state = State.ADD;
 	}
 
@@ -56,32 +51,29 @@ public class Item_List extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, 
 			Bundle savedInstanceState){
 
-		View rootView = inflater.inflate(R.layout.item_list,container,false);
+		View rootView = inflater.inflate(R.layout.category_list,container,false);
+		listView = (ListView) rootView.findViewById(R.id.category_list);
+		button = (Button) rootView.findViewById(R.id.add_button1);
 
-		textView = (TextView) rootView.findViewById(R.id.title_list);
-		listView = (ListView) rootView.findViewById(R.id.item_list);
-		button = (Button) rootView.findViewById(R.id.add_button2);
-
-		textView.setText(title);
-
-		adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, items);
+		//categories_list.add("Vigo");
+		adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, title_list);
 
 		listView.setAdapter(adapter);
 
 		registerForContextMenu(listView);
 
-		/*
 		listView.setOnItemClickListener(new OnItemClickListener(){
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3){
-				String category = items.get(arg2);
-
+				String category = title_list.get(arg2);
+				
 				((Main)getActivity()).showCategory(category);
+				//((Main)getActivity()).throwToast(category);
 				//Class ac
 			}
 		});
-*/
+
 		//Button listener
 		button.setOnClickListener(new OnClickListener(){
 			@Override
@@ -140,7 +132,7 @@ public class Item_List extends Fragment{
 	}
 
 	public String getEditText(){
-		EditText editText = (EditText) getView().findViewById(R.id.text_edit2);
+		EditText editText = (EditText) getView().findViewById(R.id.text_edit1);
 		String element = editText.getText().toString().trim();
 
 		editText.setText("");
@@ -148,7 +140,7 @@ public class Item_List extends Fragment{
 	}
 
 	public void refreshView(){
-		listView.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, items));
+		listView.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, title_list));
 	}
 
 	private void throwToast(int n){
@@ -161,7 +153,7 @@ public class Item_List extends Fragment{
 
 		int i = 0;
 
-		for(String e: items){
+		for(String e: title_list){
 			if(e.compareToIgnoreCase(item)==0){
 				throwToast(1);
 				return;
@@ -171,25 +163,23 @@ public class Item_List extends Fragment{
 			i++;
 		}
 
-		items.add(i,item);
-		items.remove(selected);
-		refreshItems();
-	}
-
-	public void refreshItems(){
-		((Main)getActivity()).passItems(title, items);
+		if(!((Main)getActivity()).changeItem(selected, item))return;
+		
+		title_list.add(i,item);
+		title_list.remove(selected);
 	}
 
 	public boolean deleteItem(String item){
-		if(items.remove(item)){refreshItems();return true;}
-		return false;
+		if(!((Main)getActivity()).deleteItem(item)) return false;
+		return title_list.remove(item);	
 	}
 
 	public void addItem(String text){
 		if(text.length()<1) return;
 
+		if(!((Main)getActivity()).addItem(text)) return;
 		int i = 0;
-		for(String e: items){
+		for(String e: title_list){
 			if(e.compareToIgnoreCase(text)==0){
 				throwToast(1);
 				return;
@@ -200,7 +190,7 @@ public class Item_List extends Fragment{
 		}
 
 		//if(categories_list.contains(text)) throwToast(1);
-		items.add(i,text);
-		refreshItems();
+
+		title_list.add(i,text);
 	}
 }
