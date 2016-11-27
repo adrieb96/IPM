@@ -8,20 +8,23 @@ import android.util.FloatMath;
 
 public class ShakeDetector implements SensorEventListener{
 
-	private static final float SHAKE_THRESHOLD_GRAVITY = 2.7F;
+	private static final float SHAKE_THRESHOLD_GRAVITY = 2.0F;
 	private static final int SHAKE_SLOP_TIME_MS = 500;
-	private static final int SHAKE_COUNT_RESET_TIME_MS = 3000;
+	private static final int FACE_DOWN_MIN_TIME = 1500;
+	private static final int MIN_TIME = 200;
 
 	private OnShakeListener mListener;
 	private long mShakeTimeStamp;
-	private int mShakeCount;
+	private boolean mFaceDown = false;
 
 	public void setOnShakeListener(OnShakeListener listener){
 		this.mListener = listener;
 	}
 
 	public interface OnShakeListener{
-		public void onShake(int count);
+		public void onShake();
+		public void onFaceDown();
+		public void onMovement();
 	}
 
 	@Override
@@ -33,6 +36,14 @@ public class ShakeDetector implements SensorEventListener{
 	public void onSensorChanged(SensorEvent event){
 
 		if(mListener != null){
+			final long now = System.currentTimeMillis();
+			
+		/*	float rotation = 100;
+			if(event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD){
+				mListener.onMovement();
+				rotation = event.values[2];}
+				*/
+
 			float x = event.values[0];
 			float y = event.values[1];
 			float z = event.values[2];
@@ -43,17 +54,30 @@ public class ShakeDetector implements SensorEventListener{
 
 			float gForce = FloatMath.sqrt(gX*gX+gY*gY+gZ*gZ);
 
+			/*
+			//detect inclination
+			if(rotation < 20 && rotation>-20){
+				if(mFaceDown) return;
+				
+				mListener.onMovement();
+				mShakeTimeStamp = now;
+				mFaceDown = true;
+				return;
+			}
+
+			if(mFaceDown && mShakeTimeStamp + FACE_DOWN_MIN_TIME < now){
+				mFaceDown = false;
+				mShakeTimeStamp = now;
+				mListener.onFaceDown();
+				return;
+			}*/
+
 			if(gForce > SHAKE_THRESHOLD_GRAVITY){
-				final long now = System.currentTimeMillis();
 				if(mShakeTimeStamp + SHAKE_SLOP_TIME_MS > now) return;
 
-				if(mShakeTimeStamp + SHAKE_COUNT_RESET_TIME_MS < now) 
-					mShakeCount = 0;
-
 				mShakeTimeStamp = now;
-				mShakeCount++;
 
-				mListener.onShake(mShakeCount);
+				mListener.onShake();
 
 			}
 		}

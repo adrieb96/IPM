@@ -2,6 +2,7 @@ package udc.fic.ipm;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.content.Context;
@@ -45,8 +46,18 @@ public class Main extends Activity
 		mShakeDetector = new ShakeDetector();
 		mShakeDetector.setOnShakeListener(new OnShakeListener(){
 			@Override
-			public void onShake(int count){
-				handleShakeEvent();
+			public void onShake(){
+				handleShakeEvent("shake");
+			}
+
+			@Override
+			public void onFaceDown(){
+				handleShakeEvent("Face Down");
+			}
+
+			@Override 
+			public void onMovement(){
+				Log.i("MOVEMENT", "MOVEMENT DETECTED");
 			}
 		});
 
@@ -89,7 +100,8 @@ public class Main extends Activity
 	}
 
 
-	public void handleShakeEvent(){
+	public void handleShakeEvent(String mode){
+		Log.i("MY_ACTIVITY",mode);
 		if(titleOfCategory!=null){
 			Category cat = searchCategory(titleOfCategory);
 			ArrayList<String> items = cat.getItems();
@@ -103,15 +115,21 @@ public class Main extends Activity
 
 			Show_Item fragment = new Show_Item(item);
 
-			FragmentTransaction transaction =
-				getFragmentManager().beginTransaction();
+			FragmentManager mngr = getFragmentManager();
+			FragmentTransaction transaction = mngr.beginTransaction();
 
 			transaction.replace(R.id.main_container, fragment);
+			
 			transaction.addToBackStack(null);
-
 			level++;
-
+			//only adds the fragment to stack if is showing category
+			if(level>2){
+				mngr.popBackStack();
+				level--;
+				Log.i("MY_ACTIVITY", "ALREADY SHOWING AN ITEM");
+			}
 			transaction.commit();
+
 		}else{
 			Log.i("MY_ACTIVITY","Not Item Selected");
 		}
