@@ -6,15 +6,31 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.content.Context;
 
+import android.hardware.SensorManager;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.Sensor;
+
 import android.view.View;
 
 import android.widget.Toast;
-import java.util.ArrayList;
+import android.widget.TextView;
 
-public class Main extends Activity 
+import java.util.ArrayList;
+import android.util.Log;
+
+import udc.fic.ipm.ShakeDetector.OnShakeListener;
+
+public class Main extends Activity
 {
 
+	private SensorManager mSensorManager;
+	private Sensor mAccelerometer;
+	private ShakeDetector mShakeDetector;
+	private int level = 0;
+
 	ArrayList<Category> categories_list;	
+	String titleOfCategory = null;
 
     /** Called when the activity is first created. */
     @Override
@@ -22,6 +38,17 @@ public class Main extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+		//Initialize ShakeDetector
+		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		mShakeDetector = new ShakeDetector();
+		mShakeDetector.setOnShakeListener(new OnShakeListener(){
+			@Override
+			public void onShake(int count){
+				handleShakeEvent();
+			}
+		});
 
 		if(findViewById(R.id.main_container) != null){
 
@@ -37,6 +64,58 @@ public class Main extends Activity
 
 		}
     }
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+		mSensorManager.registerListener(mShakeDetector, mAccelerometer, 
+				SensorManager.SENSOR_DELAY_UI);
+	}
+	
+	@Override
+	public void onPause(){
+		mSensorManager.unregisterListener(mShakeDetector);
+		super.onPause();
+	}
+
+	@Override
+	public void onBackPressed(){
+		level--;
+		if(level < 1) titleOfCategory = null;
+		Log.i("MY_ACTIVITY","ACTUAL LEVEL = " + level);
+		Log.i("MY_ACTIVITY","ACTUAL ITEM  = " + ((titleOfCategory == null)? "null" : titleOfCategory));
+
+		super.onBackPressed();
+	}
+
+
+	public void handleShakeEvent(){
+		if(titleOfCategory!=null){
+			Category cat = searchCategory(titleOfCategory);
+			ArrayList<String> items = cat.getItems();
+
+			String item = null;
+			int size = items.size();
+			if(size>0){
+				int random = (int)(Math.random() * size);
+				item = items.get(random);
+			}
+
+			Show_Item fragment = new Show_Item(item);
+
+			FragmentTransaction transaction =
+				getFragmentManager().beginTransaction();
+
+			transaction.replace(R.id.main_container, fragment);
+			transaction.addToBackStack(null);
+
+			level++;
+
+			transaction.commit();
+		}else{
+			Log.i("MY_ACTIVITY","Not Item Selected");
+		}
+	}
 
 	public void showCategory(String category){
 		Category cat = searchCategory(category);
@@ -45,6 +124,7 @@ public class Main extends Activity
 
 		ArrayList<String> items = cat.getItems();
 		String title = cat.getTitle();
+		titleOfCategory = title;
 
 		Item_List fragment = new Item_List(title, items);
 
@@ -53,6 +133,8 @@ public class Main extends Activity
 
 		transaction.replace(R.id.main_container, fragment);
 		transaction.addToBackStack(null);
+
+		level++;
 
 		transaction.commit();
 	}
