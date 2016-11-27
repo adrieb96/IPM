@@ -45,7 +45,7 @@ public class Item_Add extends Fragment{
 			public void onClick(View v){
 				String text = getEditText();
 				//if(state.equals(State.ADD))
-					((Main)getActivity()).addItem(text);
+				((Main)getActivity()).addItem(text);
 				//else if(state.equals(State.EDIT))
 				//	((Main)getActivity()).receiveItem(text);
 

@@ -4,6 +4,7 @@
 	android:layout_height="wrap_content"
 	android:layout_width="fill_parent">
 
+	
 	<EditText
 		android:id="@+id/text_edit"
 		android:hint="@string/edit_message"

@@ -21,6 +21,26 @@ public class Main extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+		if(findViewById(R.id.main_container) != null){
+
+			//if we are being restored return
+			if(savedInstanceState != null) return;
+
+			Item_List fragment_1 = new Item_List();
+			//Item_Add  fragment_2 = new Item_Add();
+
+			getFragmentManager().beginTransaction().add(
+					R.id.main_container, fragment_1).commit();
+
+			/*
+			getFragmentManager().beginTransaction().add(
+					R.id.main_container, fragment_2).commit();
+					*/
+
+		}
+
+
     }
 
 	public void throwToast(String txt){
@@ -48,11 +68,13 @@ public class Main extends Activity
 	}
 
 	public void addItem(String element){
+		/*
 		Item_List fragment = (Item_List) 
 			getFragmentManager().findFragmentById(R.id.list_1);
 
 		if(fragment == null) throwToast(3);
 		else fragment.addItem(element);
+		*/
 	}
 
 /*
