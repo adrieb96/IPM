@@ -115,7 +115,7 @@ public class Category_List extends Fragment{
 
 		selected = 
 			listView.getAdapter().getItem(info.position).toString();
-
+		
 		switch(item.getItemId()){
 			case R.id.menu_edit: 
 				state = State.EDIT;
