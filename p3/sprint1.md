@@ -2,10 +2,13 @@ Página web
 Federacion Gallega de Patinaje
 
 Fallos encontrados:
+	General
+		-Ese icono de carga es horrible
 	Agenda
 		-La pagina no se adapta a los diferentes tipos de pantallas
 		-No se puede acceder a los datos de los clubes facilmente
 		-No se puede acceder a las diferentes categorias facilmente
+		-No se puede acceder a los diferentes partidos
 		-No se pueden buscar clubes introduciendo el nombre
 		-No se pueden buscar categorias introduciendo el nombre
 		-No se pueden buscar fechas individuales o rangos de fechas
