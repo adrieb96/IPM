@@ -1,3 +1,18 @@
+@font-face{
+	font-family: FontAwesome;
+	src:url(../fonts/fontawesome-webfont.eot?v=4.4.0);
+	src:url(../fonts/fontawesome-webfont.eot?#iefix&v=4.4.0) format('embedded-opentype'),url(../fonts/fontawesome-webfont.woff2?v=4.4.0) format('woff2'),url(../fonts/fontawesome-webfont.woff?v=4.4.0) format('woff'),url(../fonts/fontawesome-webfont.ttf?v=4.4.0) format('truetype'),url(../fonts/fontawesome-webfont.svg?v=4.4.0#fontawesomeregular) format('svg');
+	font-weight: 400;
+	font-style: normal;
+}
+.fa{
+	font: normal normal normal 14px/1 FontAwesome;
+	font-size: inherit;
+	text-rendering:auto;
+}
+.fa-caret-up:before{
+	content:"\f0d8";
+}
 html{
 	color:black;
 	font-family: 'Lato', sans-serif;
@@ -26,6 +41,15 @@ ul{
 	overflow: hidden;
 }
 
+table{
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+td, th{
+	padding: 0;
+	vertical-align: middle;
+	text-align: center;
+}
 .cabecera{
 	position: relative;
 	background-image: url("../img/header_fgp.png");
@@ -116,7 +140,9 @@ ul.ordenar{
 	font-family: 'Roboto', sans-serif;
 	margin-bottom: 1.5em;
 }
-	
+.ordenar a{
+	color: white;
+}
 .ordenar li{
 	border-bottom: 0.2em solid transparent;
 	color: white;
@@ -194,6 +220,7 @@ ul.ordenar{
 	background-color: #ffffff;
 }
 .partido .link-partido{
+	color: black;
 	display:block;
 	float: left;
 	width: 100%;
@@ -244,7 +271,7 @@ ul.ordenar{
 	width: 50%;
 }
 .partido .equipo-resultado .equipo.local{
-	padding-right: 25px;
+	padding-right: 2em;
 }
 .partido .equipo-resultado .equipo.local span{
 	float: right;
@@ -257,7 +284,7 @@ ul.ordenar{
 	white-space: nowrap;
 } 
 .partido .equipo-resultado .equipo.visitante{
-	padding-left: 25px;
+	padding-left: 2em;
 }
 .partido .equipo-resultado .equipo.visitante span{
 	float: left;
@@ -293,11 +320,254 @@ ul.ordenar{
 	min-height: 10em;
 }
 .nombre-equipo{
-	font-
+}
+
+.plantilla{
+	border: 1px solid #CCD1D9;
+	border-radius: 6px 6px 0 0;
+	display: table;
+	width:100%;
+	position: relative;
+	margin-bottom: 2em;
+}
+
+
+/**CATEGORIAS**/
+.lista-equipos{
+	clear: left;
+	position: relative;
+}
+.lista-equipos a{
+	color: gainsboro;
+}
+.lista-equipos a:hover{
+	color: white;
+}
+.caja-equipos{
+	width: 100%;
+	margin: auto;
+	margin-bottom: 3em;
+	overflow: hidden;
+	display:block;
+	border: 1px solid #CCD1D9;
+	background-color: #434a54;
+	border-radius: 6px 6px 0 0;
+	min-height: 10em;
+}
+
+.cabecera-seccion{
+	width: 100%;	
+	border-radius: 4px 4px 0 0;
+	background-color: powderblue;
+	overflow: hidden;
+	min-height: 2.5em;
+}
+.cabecera-seccion a{
+	float: right;
+	padding: 0 2em;
+	line-height: 2.33em;
+	position: relative;
+}
+.cabecera-seccion a:hover{
+	background-color: darkturquoise;
+	outline:0;
+}
+.cabecera-seccion a .fa-caret-up{
+	display: none;
+}
+
+.cabecera-seccion a:hover .fa-caret-up{
+	display: block;
+	font-size: 20px;
+	padding: 0;
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	margin: 0 0 0 -6px;
+	width: 12px;
+	height: 14px;
+}
+
+.cabecera-seccion .titulo{
+	font-size: 1.5em;
+	font-weight: 700;
+	margin: 0.25em 0.5em;
+	float: left;
+	letter-spacing: 2px;
+}
+.columna-equipos{
+	width: 25%;	
+	float: left;
+	position: relative;
+	padding: 0.8em 0;
+}
+.celda-equipo{
+	width: 100%;
+	float: left;
+	display: table;
+	font-size: 1em;
+	height: 2.5em;
+}
+.celda-equipo .nombre{ 
+	width: 60%;
+	display: table-cell;
+	float: none;
+	vertical-align: middle;
+}
+.caja-escudo{
+	float: none;
+	display: table-cell;
+	margin-left: 2em;
+	width: 40%;
+	text-align: center;
+	vertical-align:middle;
+}
+.escudo{
+	display: block;
+	position: relative;
+	float: left;
+	left: 46%;
+	width: 2em;
+	height: 2em;
+	background-size: 2em, 2em;
+}
+
+.clasif-goles{
+	width: 100%;
+	clear: left;
+	position: relative;
+	display: table;
+}
+.clasificacion{
+	border: 1px solid #CCD1D9;
+	border-radius: 6px 6px 0 0;
+	display: table;
+	float: left;
+	width: 50%;
+	position: relative;
+	box-sizing: border-box;
+}
+.clasif-goles table, .plantilla table{
+	position: relative;
+	width: 100%;
+}
+.clasif-goles thead, .plantilla thead{
+	background: powderblue;
+	width: 100%;
+	height: 3em;
+}
+.clasif-goles tbody td, .plantilla tbody td{
+	height: 2em;
+}
+.clasif-goles th, .plantilla th{
+	font-weight: 600;
+}
+.clasif-goles tr, .plantilla tr{
+	height: 2em;
+}
+.clasif-goles th.titulo, .plantilla th.titulo{
+	text-align: left;
+	line-height: 40px;
+	font-size: 1.8em;
+	padding: 0 1em;
+}
+.clasif-goles tr.linea-par, .plantilla tr.linea-par{
+	background: #ecf0f1;
+}
+.clasif-goles td.posicion, .plantilla td.posicion{
+	min-width: 1.3em;
+	float: right;
+}
+.clasif-goles td.separador{
+	width: 1em;
+}
+.clasificacion td.contenedor-nombre{
+	position: relative;
+}
+.clasificacion td.contenedor-nombre a{
+	color: black;
+}
+.clasificacion td.contenedor-nombre a:hover{
+	color: #00bfff;
+}
+.clasificacion td.contenedor-nombre .nombre-equipo{
+	float:left;
+	position: relative;
+	width: 100%;
+	padding-left: 3em;
+	text-align: left;
+}
+.clasificacion td.contenedor-nombre .nombre-equipo-movil{
+	display: none;
+	float: left;
+	position: relative;
+	padding-left: 3em;
+	width: 100%;
+	text-align: left;
+}
+.escudo-clasif{
+	position: absolute;
+	left:2px;
+}
+	
+.goleadores{
+	border: 1px solid #CCD1D9;
+	border-radius: 6px 6px 0 0;
+	display: table;
+	float: right;
+	position: relative;
+	width: 46%;
+}
+.caja-jugador{
+	position: relative;
+	font-size: 14px;
+	height: 2em;
+	width: 80%;
+}
+.goleadores td.caja-jugador .nombre-jugador, .plantilla td.caja-jugador .nombre-jugador{
+	text-align: left;
+	overflow: hidden;
+	float: left;
+	position: relative;
+	padding-right: 2em;
+	padding-left: 2em;
+	display:block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 98%;
+}
+.escudo-goles{
+	position:absolute;
+	right: 2px;
+}
+
+/***BANDERAS***/
+.pais{
+	display: block;
+	position: absolute;
+	width: 2em;
+	height: 2em;
+	background-size: 1em, 11px;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.pais.es{
+	background-image: url("../img/paises/es.gif");
+}
+.pais.ke{
+	background-image: url("../img/paises/ke.gif");
+}
+.pais.kp{
+	background-image: url("../img/paises/kp.gif");
+}
+.pais.gi{
+	background-image: url("../img/paises/gi.gif");
 }
 
 /***ESCUDOS***/
-.escudo{
+.escudo-partido{
 	display: block;
 	position: relative;
 	width: 2em;
@@ -313,29 +583,27 @@ ul.ordenar{
 	height: 10em;
 	background-size: 10em, 10em;
 }
-.escudo.lhl, .escudo-grande.lhl{
+.escudo.lhl, .escudo-grande.lhl, .escudo-partido.lhl{
 	background-image: url("../img/equipos/LHL.png");
 }
-.escudo.mor, .escudo-grande.mor{
+.escudo.mor, .escudo-grande.mor, .escudo-partido.mor{
 	background-image: url("../img/equipos/MOR.png");
 }
-.escudo.agd, .escudo-grande.agd{
+.escudo.agd, .escudo-grande.agd, .escudo-partido.agd{
 	background-image: url("../img/equipos/AGD.png");
 }
-.escudo.cbx, .escudo-grande.cbx{
+.escudo.cbx, .escudo-grande.cbx, .escudo-partido.cbx{
 	background-image: url("../img/equipos/CBX.png");
 }
-.escudo.lub, .escudo-grande.lub{
+.escudo.lub, .escudo-grande.lub, .escudo-partido.lub{
 	background-image: url("../img/equipos/LUB.png");
 }
-.escudo.rax, .escudo-grande.rax{
+.escudo.rax, .escudo-grande.rax, .escudo-partido.rax{
 	background-image: url("../img/equipos/RAX.png");
 }
-.escudo.vbr, .escudo-grande.vbr{
+.escudo.vbr, .escudo-grande.vbr, .escudo-partido.vbr{
 	background-image: url("../img/equipos/VBR.png");
 }
-
-
 
 
 /**MEDIA**/
@@ -352,5 +620,32 @@ ul.ordenar{
 		float: left;
 		clear: left;
 	}
+	.celda-equipo .nombre{
+		display: none;
+	}
+	.clasif-goles .clasificacion{
+		width: 100%;
+		margin-bottom: 3em;
+	}
+	.clasif-goles .goleadores{
+		float: left;
+		width: 100%;
+		margin-bottom: 3em;
+	}
 }
 
+@media only screen and (max-width: 375px){
+
+	.contenido-body{
+		max-width: 99%;
+	}
+
+	.clasificacion td.contenedor-nombre .nombre-equipo{
+		display: none;
+	}
+
+	.clasificacion td.contenedor-nombre .nombre-equipo-movil{
+		display: block;
+	}
+		
+}
